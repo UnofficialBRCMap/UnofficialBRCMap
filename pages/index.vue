@@ -1,23 +1,18 @@
 <script setup lang="ts">
 const online = useOnline()
+const router = useRouter()
 </script>
 
 <template>
   <div>
-    <Logos mb-6 />
-    <Suspense>
-      <ClientOnly>
-        <PageView v-if="online" />
-        <div v-else text-gray:80>
-          You're offline
-        </div>
-      </ClientOnly>
-      <template #fallback>
-        <div italic op50>
-          <span animate-pulse>Loading...</span>
-        </div>
-      </template>
-    </Suspense>
-    <InputEntry />
+    <h2>Home</h2>
+    <div class="flex justify-center">
+      <button class="p-4" @click="router.push('/signup')">
+        Sign Up
+      </button>
+      <button class="p-4" @click="router.push('/login')">
+        Login
+      </button>
+    </div>
   </div>
 </template>

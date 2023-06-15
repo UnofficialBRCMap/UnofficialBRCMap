@@ -1,33 +1,38 @@
 import { pwa } from './config/pwa'
 import { appDescription } from './constants/index'
 
+// const ONE_DAY = 60 * 60 * 24 * 1000
+// const ONE_WEEK = ONE_DAY * 7
+
 export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
-    '@unocss/nuxt',
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
     '@vite-pwa/nuxt',
+    '@nuxtjs/tailwindcss',
+    '@formkit/nuxt',
+    'nuxt-headlessui',
+    'nuxt-icon',
+    '@pinia-plugin-persistedstate/nuxt',
   ],
-
   experimental: {
     // when using generate, payload js assets included in sw precache manifest
     // but missing on offline, disabling extraction it until fixed
     payloadExtraction: false,
+    reactivityTransform: true,
     inlineSSRStyles: false,
-    renderJsonPayloads: true,
-    typedPages: true,
   },
-
   css: [
     '@unocss/reset/tailwind.css',
   ],
-
-  colorMode: {
-    classSuffix: '',
-  },
-
+  // colorMode: {
+  //   classSuffix: '',
+  // },
   nitro: {
+    routeRules: {
+      '/api/**': { proxy: `${process.env.USER_BACKEND_URL}/**` },
+    },
     esbuild: {
       options: {
         target: 'esnext',
@@ -39,7 +44,23 @@ export default defineNuxtConfig({
       ignore: ['/hi'],
     },
   },
-
+  components: {
+    global: true,
+    dirs: ['~/components'],
+  },
+  ssr: false,
+  runtimeConfig: {
+    public: {
+      apiBase: `${process.env.FRONTEND_URL}/api`,
+      stripePk: process.env.STRIPE_PK,
+    },
+  },
+  vueuse: {
+    ssrHandlers: true,
+  },
+  plugins: [
+    // { src: '~/plugins/animejs.ts', mode: 'client' },
+  ],
   app: {
     head: {
       viewport: 'width=device-width,initial-scale=1',
@@ -55,10 +76,5 @@ export default defineNuxtConfig({
       ],
     },
   },
-
   pwa,
-
-  devtools: {
-    enabled: true,
-  },
 })
