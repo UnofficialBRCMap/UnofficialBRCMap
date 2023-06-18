@@ -13,6 +13,9 @@ const router = useRouter()
       <button class="p-4" @click="router.push('/login')">
         Login
       </button>
+      <button class="p-4" @click="router.push('/addYourCamp')">
+        Add Your Camp
+      </button>
     </div>
   </div>
 </template>
