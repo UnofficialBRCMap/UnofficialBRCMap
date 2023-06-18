@@ -19,14 +19,13 @@ const ART_OPTIONS = [
   'Art C',
 ]
 
-// TODO: transform data to correct format for DB
+// TODO: Transform data to correct format for DB
 // TODO: Put command to DB
 function addCamp(fields: any) {
   console.log(fields)
 }
 </script>
 
-// TODO: check if art can be located in the city. If not add error if they try to place it within those coordinates
 <template>
   <div class="w-80 text-left">
     <FormKit
