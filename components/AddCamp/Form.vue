@@ -61,7 +61,7 @@ function addCamp(fields: any) {
           type="select"
           placeholder="Select"
           name="address"
-          label="Address"
+          label="Address: Order matters '2:00 & A' is a different from 'A & 2:00'"
           validation="required"
           :options="CAMP_ADDRESS_OPTIONS"
         />

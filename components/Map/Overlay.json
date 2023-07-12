@@ -1,0 +1,16 @@
+{
+    "type": "Feature",
+    "properties": {
+      "@id": "test",
+      "highway": "pedestrian",
+      "name": "Center Camp Plaza",
+      "type": "Feature"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        -119.21334206107765,
+        40.78702951296582
+      ]
+    }
+}

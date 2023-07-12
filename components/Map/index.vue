@@ -1,15 +1,40 @@
 <script>
 import 'leaflet/dist/leaflet.css'
 import { LGeoJson, LMap } from '@vue-leaflet/vue-leaflet'
+import L from 'leaflet'
 import geoJson from './BurningMan.json'
+import polygons from './Polygons.json'
+import toilet from './toilet.png'
 
-const geojsonMarkerOptions = {
-  radius: 4,
-  fillColor: '#ADD8E6',
-  color: '#ADD8E6',
-  weight: 1,
-  opacity: 1,
-  fillOpacity: 0.8,
+const hoverStyle = {
+  fillOpacity: 0.9,
+}
+
+const defaultStyle = {
+  fillOpacity: 0.4,
+}
+
+const toiletIcon = new L.Icon({
+  iconUrl: toilet,
+  iconSize: [17, 17],
+})
+
+let hoverId
+
+const onEachFeature = function (feature, layer) {
+  // Set the default style into layer
+  // Set the highlight style into layer when 'mouseover'
+  (function () {
+    layer.setStyle(defaultStyle)
+    layer.on('mouseover', () => {
+      layer.setStyle(hoverStyle)
+      hoverId = feature.properties.id
+      console.log(feature.properties.id)
+    })
+    layer.on('mouseout', () => {
+      layer.setStyle(defaultStyle)
+    })
+  })(layer, feature.properties)
 }
 
 export default {
@@ -20,15 +45,23 @@ export default {
   data() {
     return {
       geoJson,
-      myStyle: {
+      polygons,
+      mapStyle: () => ({
         color: '#192841',
-        weight: 2,
+        weight: 1,
         opacity: 1,
         fillOpacity: 1,
-      },
-      options: {
+      }),
+      polygonStyle: () => ({
+        color: '#AA4A44',
+        weight: 1.5,
+      }),
+      polygonOptions: { onEachFeature },
+      mapOptions: {
         pointToLayer(feature, latlng) {
-          return L.circleMarker(latlng, geojsonMarkerOptions)
+          return L.marker(latlng, {
+            icon: toiletIcon,
+          })
         },
       },
     }
@@ -48,9 +81,16 @@ export default {
     >
       <LGeoJson
         :geojson="geoJson"
-        :options-style="myStyle"
-        :options="options"
+        :options-style="mapStyle"
+        :options="mapOptions"
         layer-type="base"
+      />
+      <LGeoJson
+        :geojson="polygons"
+        :options-style="polygonStyle"
+        :options="polygonOptions"
+        :on-each-feature="onEachFeature"
+        layer-type="overlay"
       />
     </LMap>
   </div>
