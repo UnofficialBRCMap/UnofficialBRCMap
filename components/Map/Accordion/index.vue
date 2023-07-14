@@ -5,10 +5,6 @@ import {
   CAccordionBody,
   CAccordionHeader,
   CAccordionItem,
-  CModal,
-  CModalBody,
-  CModalHeader,
-  CModalTitle,
 } from '@coreui/vue'
 
 export default {
@@ -17,10 +13,6 @@ export default {
     CAccordionBody,
     CAccordionHeader,
     CAccordionItem,
-    CModal,
-    CModalBody,
-    CModalHeader,
-    CModalTitle,
   },
   props: {
     block: String,

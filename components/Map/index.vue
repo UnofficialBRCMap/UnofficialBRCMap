@@ -2,14 +2,23 @@
 import 'leaflet/dist/leaflet.css'
 import { LGeoJson, LMap } from '@vue-leaflet/vue-leaflet'
 import L from 'leaflet'
-import { CCard, CCardBody, CCardGroup, CCardHeader, CCardTitle, CCloseButton, CContainer, CNav, CNavItem,
+import {
+  CButton,
+  CCard,
+  CCardBody,
+  CCardGroup,
+  CCardHeader,
+  CCardTitle,
+  CCloseButton,
+  CContainer,
+  CForm,
   CFormInput,
-    CNavbar,
-    CForm,
-    CButton,
-  } from '@coreui/vue'
+  CNav,
+  CNavItem,
+  CNavbar,
+} from '@coreui/vue'
 import { ref } from 'vue'
-import Sidebar from './Sidebar'
+import Accordion from './Accordion'
 import geoJson from './BurningMan.json'
 import polygons from './Polygons.json'
 import toilet from './toilet.png'
@@ -75,7 +84,7 @@ export default {
   components: {
     LMap,
     LGeoJson,
-    Sidebar,
+    Accordion,
     CContainer,
     CCardGroup,
     CCard,
@@ -164,7 +173,7 @@ export default {
         </CCardHeader>
         <CCardBody>
           <CCardTitle>{{ blockId }}</CCardTitle>
-          <Sidebar />
+          <Accordion />
         </CCardBody>
       </CCard>
     </CCardGroup>
