@@ -39,6 +39,7 @@
     "@formkit/themes": "^0.17.2",
     "@headlessui/vue": "^1.7.14",
     "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
+    "flowbite": "^1.7.0",
     "nuxt-headlessui": "^1.1.4",
     "nuxt-icon": "^0.4.1",
     "vue-query": "^1.26.0"
