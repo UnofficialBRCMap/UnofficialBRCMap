@@ -30,30 +30,33 @@ const hoverStyle = {
 }
 
 const defaultStyle = {
-  fillOpacity: 0.4,
-  color: '#AA4A44',
-  fillColor: '#ff0033',
-  weight: 2,
-  padding: 10,
+  fillOpacity: 0.6,
+  color: '#961f12',
+  fillColor: '#ba5545',
+  weight: 1,
 }
 
-const clickedStyle = {
+const selectedStyle = {
   fillOpacity: 0.8,
-  color: '#FFBF00',
   fillColor: '#FFBF00',
 }
 
 const toiletIcon = new L.Icon({
   iconUrl: toilet,
-  iconSize: [17, 17],
+  iconSize: [14, 14],
 })
 
 const blockId = ref(undefined)
 const showPolygons = ref(true)
 const block = ref(undefined)
+const map = ref(undefined)
+
+const center = [40.787030, -119.202740]
+const zoom = 13.5
 
 const clearBlock = function () {
   blockId.value = undefined
+  block.value.setStyle(defaultStyle)
 }
 
 const onEachFeature = function (feature, layer) {
@@ -66,12 +69,14 @@ const onEachFeature = function (feature, layer) {
         layer.setStyle(defaultStyle)
     })
     layer.on('click', () => {
-      layer.setStyle(clickedStyle)
-      // remove clickedStyle from the previous block
+      // remove selectedStyle from the previous block
       if (block.value)
         block.value.setStyle(defaultStyle)
+      layer.setStyle(selectedStyle)
       block.value = layer
       blockId.value = feature.properties.id
+      const newCenter = [(layer._bounds._northEast.lat + layer._bounds._southWest.lat) / 2, (layer._bounds._northEast.lng + layer._bounds._southWest.lng) / 2]
+      map.value.setView(newCenter, 16)
     })
   })(layer, feature.properties)
 }
@@ -98,7 +103,6 @@ export default {
     CNavbar,
     CForm,
     CButton,
-
   },
   data() {
     return {
@@ -107,7 +111,7 @@ export default {
       blockId,
       mapStyle: () => ({
         color: '#192841',
-        weight: 1,
+        weight: 1.5,
         opacity: 1,
         fillOpacity: 1,
       }),
@@ -124,6 +128,9 @@ export default {
       clearBlock,
       handleZoom,
       showPolygons,
+      map,
+      center,
+      zoom,
     }
   },
 }
@@ -142,26 +149,31 @@ export default {
           </CForm>
         </CNavbar>
         <LMap
-          ref="map"
-          :zoom="13.5"
-          :center="[40.787030, -119.202740]"
+          :zoom="zoom"
+          :center="center"
           :max-bounds="[[40.787030 + .03, -119.202740 + .05], [40.787030 - .03, -119.202740 - .05]]"
-          :max-zoom="17"
+          :max-zoom="18"
           :min-zoom="13"
+          @ready="(a) => map = a"
           @update:zoom="handleZoom"
         >
-          <LGeoJson :geojson="geoJson" :options-style="mapStyle" :options="mapOptions" layer-type="base" />
           <LGeoJson
-            v-if="showPolygons"
+            :visible="showPolygons"
             :geojson="polygons"
             :options-style="polygonStyle"
             :options="polygonOptions"
             :on-each-feature="onEachFeature"
             layer-type="overlay"
           />
+          <LGeoJson
+            :geojson="geoJson"
+            :options-style="mapStyle"
+            :options="mapOptions"
+            layer-type="base"
+          />
         </LMap>
       </CCard>
-      <CCard v-if="blockId" style="max-width: 400px;">
+      <CCard v-if="blockId" style="max-width: 300px;">
         <CCardHeader>
           <CNav class="justify-content-start">
             <CNavItem>
