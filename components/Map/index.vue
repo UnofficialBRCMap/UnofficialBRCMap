@@ -2,61 +2,122 @@
 import 'leaflet/dist/leaflet.css'
 import { LGeoJson, LMap } from '@vue-leaflet/vue-leaflet'
 import L from 'leaflet'
+import {
+  CButton,
+  CCard,
+  CCardBody,
+  CCardGroup,
+  CCardHeader,
+  CCardTitle,
+  CCloseButton,
+  CContainer,
+  CForm,
+  CFormInput,
+  CNav,
+  CNavItem,
+  CNavbar,
+} from '@coreui/vue'
+import { ref } from 'vue'
+import Accordion from './Accordion'
 import geoJson from './BurningMan.json'
 import polygons from './Polygons.json'
 import toilet from './toilet.png'
+import '@coreui/coreui/dist/css/coreui.min.css'
 
 const hoverStyle = {
   fillOpacity: 0.9,
+  color: '#AA4A44',
 }
 
 const defaultStyle = {
-  fillOpacity: 0.4,
+  fillOpacity: 0.6,
+  color: '#961f12',
+  fillColor: '#ba5545',
+  weight: 1,
+}
+
+const selectedStyle = {
+  fillOpacity: 0.8,
+  fillColor: '#FFBF00',
 }
 
 const toiletIcon = new L.Icon({
   iconUrl: toilet,
-  iconSize: [17, 17],
+  iconSize: [14, 14],
 })
 
-let hoverId
+const blockId = ref(undefined)
+const showPolygons = ref(true)
+const block = ref(undefined)
+const map = ref(undefined)
+
+const center = [40.787030, -119.202740]
+const zoom = 13.5
+
+const clearBlock = function () {
+  blockId.value = undefined
+  block.value.setStyle(defaultStyle)
+}
 
 const onEachFeature = function (feature, layer) {
-  // Set the default style into layer
-  // Set the highlight style into layer when 'mouseover'
   (function () {
-    layer.setStyle(defaultStyle)
     layer.on('mouseover', () => {
       layer.setStyle(hoverStyle)
-      hoverId = feature.properties.id
-      console.log(feature.properties.id)
     })
     layer.on('mouseout', () => {
-      layer.setStyle(defaultStyle)
+      if (feature.properties.id !== blockId.value)
+        layer.setStyle(defaultStyle)
+    })
+    layer.on('click', () => {
+      // remove selectedStyle from the previous block
+      if (block.value)
+        block.value.setStyle(defaultStyle)
+      layer.setStyle(selectedStyle)
+      block.value = layer
+      blockId.value = feature.properties.id
+      const newCenter = [(layer._bounds._northEast.lat + layer._bounds._southWest.lat) / 2, (layer._bounds._northEast.lng + layer._bounds._southWest.lng) / 2]
+      map.value.setView(newCenter, 16)
     })
   })(layer, feature.properties)
+}
+
+function handleZoom(zoom) {
+  showPolygons.value = zoom < 17
 }
 
 export default {
   components: {
     LMap,
     LGeoJson,
+    Accordion,
+    CContainer,
+    CCardGroup,
+    CCard,
+    CCardTitle,
+    CCardBody,
+    CCardHeader,
+    CCloseButton,
+    CNavItem,
+    CNav,
+    CFormInput,
+    CNavbar,
+    CForm,
+    CButton,
   },
   data() {
     return {
       geoJson,
       polygons,
+      blockId,
       mapStyle: () => ({
         color: '#192841',
-        weight: 1,
+        weight: 1.5,
         opacity: 1,
         fillOpacity: 1,
       }),
-      polygonStyle: () => ({
-        color: '#AA4A44',
-        weight: 1.5,
-      }),
+      polygonStyle: () => defaultStyle,
       polygonOptions: { onEachFeature },
+      onEachFeature,
       mapOptions: {
         pointToLayer(feature, latlng) {
           return L.marker(latlng, {
@@ -64,34 +125,69 @@ export default {
           })
         },
       },
+      clearBlock,
+      handleZoom,
+      showPolygons,
+      map,
+      center,
+      zoom,
     }
   },
 }
 </script>
 
 <template>
-  <div style="height:600px; width:1000px; margin:auto;">
-    <LMap
-      ref="map"
-      :zoom="13.5"
-      :center="[40.787030, -119.202740]"
-      :max-bounds="[[40.787030 + .03, -119.202740 + .05], [40.787030 - .03, -119.202740 - .05]]"
-      :max-zoom="17"
-      :min-zoom="13"
-    >
-      <LGeoJson
-        :geojson="geoJson"
-        :options-style="mapStyle"
-        :options="mapOptions"
-        layer-type="base"
-      />
-      <LGeoJson
-        :geojson="polygons"
-        :options-style="polygonStyle"
-        :options="polygonOptions"
-        :on-each-feature="onEachFeature"
-        layer-type="overlay"
-      />
-    </LMap>
-  </div>
+  <CContainer md>
+    <CCardGroup style="height:600px">
+      <CCard style="height:600px;max-width: 1000px;">
+        <CNavbar expand="lg">
+          <CForm class="d-flex">
+            <CFormInput type="search" class="me-2" placeholder="Search" />
+            <CButton type="submit" color="success" variant="outline">
+              Search
+            </CButton>
+          </CForm>
+        </CNavbar>
+        <LMap
+          :zoom="zoom"
+          :center="center"
+          :max-bounds="[[40.787030 + .03, -119.202740 + .05], [40.787030 - .03, -119.202740 - .05]]"
+          :max-zoom="18"
+          :min-zoom="13"
+          @ready="(a) => map = a"
+          @update:zoom="handleZoom"
+        >
+          <LGeoJson
+            :visible="showPolygons"
+            :geojson="polygons"
+            :options-style="polygonStyle"
+            :options="polygonOptions"
+            :on-each-feature="onEachFeature"
+            layer-type="overlay"
+          />
+          <LGeoJson
+            :geojson="geoJson"
+            :options-style="mapStyle"
+            :options="mapOptions"
+            layer-type="base"
+          />
+        </LMap>
+      </CCard>
+      <CCard v-if="blockId" style="max-width: 300px;">
+        <CCardHeader>
+          <CNav class="justify-content-start">
+            <CNavItem>
+              <CCloseButton
+                :onClick="clearBlock"
+              />
+            </CNavItem>
+          </CNav>
+        </CCardHeader>
+        <CCardBody>
+          <CCardTitle>{{ blockId }}</CCardTitle>
+          <Accordion />
+        </CCardBody>
+      </CCard>
+    </CCardGroup>
+  </CContainer>
 </template>

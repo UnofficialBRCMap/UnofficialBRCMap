@@ -5,6 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@coreui/coreui':
+    specifier: ^4.2.6
+    version: 4.2.6(@popperjs/core@2.11.8)(postcss@8.4.24)
+  '@coreui/vue':
+    specifier: ^4.9.0
+    version: 4.9.0(@coreui/coreui@4.2.6)(vue@3.3.4)
   '@formkit/icons':
     specifier: ^0.17.2
     version: 0.17.2
@@ -1396,6 +1402,27 @@ packages:
     dependencies:
       mime: 3.0.0
     dev: true
+
+  /@coreui/coreui@4.2.6(@popperjs/core@2.11.8)(postcss@8.4.24):
+    resolution: {integrity: sha512-h9j1BVnaDi9vSr1t0H8NL3hlDD4lU9kIdGLXn7g9k5iaFq5EDlRDcSBDer6lR2O4sIEl7W7YqTlevLxFC+1cIA==}
+    peerDependencies:
+      '@popperjs/core': ^2.11.6
+    dependencies:
+      '@popperjs/core': 2.11.8
+      postcss-combine-duplicated-selectors: 10.0.3(postcss@8.4.24)
+    transitivePeerDependencies:
+      - postcss
+    dev: false
+
+  /@coreui/vue@4.9.0(@coreui/coreui@4.2.6)(vue@3.3.4):
+    resolution: {integrity: sha512-uDCPiNCA02i00ohxVIPbAddlScUDFZsWA+qjnrvkhMr6boaMHdcVpdYFv79lDgNUwA6k5nM7boP+B2zSr/db5g==}
+    peerDependencies:
+      '@coreui/coreui': ^4.2.6
+      vue: ^3.2.21
+    dependencies:
+      '@coreui/coreui': 4.2.6(@popperjs/core@2.11.8)(postcss@8.4.24)
+      vue: 3.3.4
+    dev: false
 
   /@csstools/cascade-layer-name-parser@1.0.2(@csstools/css-parser-algorithms@2.2.0)(@csstools/css-tokenizer@2.1.1):
     resolution: {integrity: sha512-xm7Mgwej/wBfLoK0K5LfntmPJzoULayl1XZY9JYgQgT29JiqNw++sLnx95u5y9zCihblzkyaRYJrsRMhIBzRdg==}
@@ -8830,6 +8857,16 @@ packages:
       postcss: 8.4.24
       postcss-value-parser: 4.2.0
     dev: true
+
+  /postcss-combine-duplicated-selectors@10.0.3(postcss@8.4.24):
+    resolution: {integrity: sha512-IP0BmwFloCskv7DV7xqvzDXqMHpwdczJa6ZvIW8abgHdcIHs9mCJX2ltFhu3EwA51ozp13DByng30+Ke+eIExA==}
+    engines: {node: ^10.0.0 || ^12.0.0 || >=14.0.0}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      postcss: 8.4.24
+      postcss-selector-parser: 6.0.13
+    dev: false
 
   /postcss-convert-values@6.0.0(postcss@8.4.24):
     resolution: {integrity: sha512-U5D8QhVwqT++ecmy8rnTb+RL9n/B806UVaS3m60lqle4YDFcpbS3ae5bTQIh3wOGUSDHSEtMYLs/38dNG7EYFw==}
