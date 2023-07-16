@@ -109,6 +109,35 @@ function addCamp(fields: any) {
         />
       </div>
     </FormKit>
+        type="form"
+        @submit="addCampLocation"
+      >
+        <FormKit v-model="campForm" type="group">
+          <h2 class="my-4">
+            Use the form below to add your camp!
+          </h2>
+          <div v-if="!isLoading">
+            <FormKit
+              type="select"
+              placeholder="Select"
+              name="id"
+              label="Camp Name"
+              validation="required"
+              :options="CAMP_OPTIONS"
+            />
+            <FormKit
+              type="select"
+              placeholder="Select"
+              name="address"
+              label="Address"
+              help="Order matters '2:00 & A' is a different from 'A & 2:00'"
+              validation="required"
+              :options="CAMP_ADDRESS_OPTIONS"
+            />
+          </div>
+        </FormKit>
+      </FormKit>
+    </div>
   </div>
   <span v-if="isError">An error occurred: {{ error }}</span>
   <span v-else-if="isSuccess">Submitted!</span>
