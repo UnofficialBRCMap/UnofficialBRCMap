@@ -24,6 +24,16 @@ const toiletIcon = new L.Icon({
 
 let hoverId
 
+function sillyFix(bt, letter) {
+  const n = new Date(0, 0)
+  n.setSeconds(+bt * 60 * 60)
+  let s = n.toTimeString().slice(0, 5)
+  if (s.charAt(0) === '0')
+    s = s.slice(1, 5)
+
+  return `${s} & ${letter}`
+}
+
 const campStore = useCampStore()
 console.log('campStore', campStore.camps.data)
 
@@ -37,7 +47,8 @@ function onEachFeature(feature, layer) {
       hoverId = feature.properties.id
       pointerLocation.value = feature.properties.id
       console.log('pointer', feature.properties.id)
-      console.log(campStore.getCampsAtLocation(feature.properties.id))
+      console.log(campStore.getCampsAtLocation(sillyFix(feature.properties.blockTime, feature.properties.roadLetter)))
+      console.log('what are the features', feature.properties)
     })
     layer.on('click', () => {
       console.log('click', feature.properties.id)
