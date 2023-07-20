@@ -1,4 +1,4 @@
-<script>
+<script setup>
 import 'leaflet/dist/leaflet.css'
 import { LGeoJson, LMap } from '@vue-leaflet/vue-leaflet'
 import L from 'leaflet'
@@ -22,6 +22,8 @@ const toiletIcon = new L.Icon({
 
 let hoverId
 
+const campStore = useCampStore()
+
 function onEachFeature(feature, layer) {
   // Set the default style into layer
   // Set the highlight style into layer when 'mouseover'
@@ -31,6 +33,8 @@ function onEachFeature(feature, layer) {
       layer.setStyle(hoverStyle)
       hoverId = feature.properties.id
       console.log(feature.properties.id)
+      console.log(campStore.locationsMap)
+      console.log(campStore.getCampsAtLocation(feature.properties.id))
     })
     layer.on('mouseout', () => {
       layer.setStyle(defaultStyle)
@@ -38,39 +42,29 @@ function onEachFeature(feature, layer) {
   })(layer, feature.properties)
 }
 
-export default defineComponent({
-  components: {
-    LMap,
-    LGeoJson,
+const mapStyle = ref({
+  color: '#192841',
+  weight: 1,
+  opacity: 1,
+  fillOpacity: 1,
+})
+
+const polygonStyle = ref({
+  color: '#AA4A44',
+  weight: 1.5,
+})
+
+const polygonOptions = ref({
+  onEachFeature,
+})
+
+const mapOptions = ref({
+  pointToLayer(feature, latlng) {
+    return L.marker(latlng, {
+      icon: toiletIcon,
+    })
   },
-  data() {
-    const campStore = useCampStore()
-    console.log(campStore.camps.data)
-    return {
-      geoJson,
-      polygons,
-      mapStyle: () => ({
-        color: '#192841',
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 1,
-      }),
-      polygonStyle: () => ({
-        color: '#AA4A44',
-        weight: 1.5,
-      }),
-      polygonOptions: { onEachFeature },
-      mapOptions: {
-        pointToLayer(feature, latlng) {
-          return L.marker(latlng, {
-            icon: toiletIcon,
-          })
-        },
-      },
-    }
-  },
-},
-)
+})
 </script>
 
 <template>

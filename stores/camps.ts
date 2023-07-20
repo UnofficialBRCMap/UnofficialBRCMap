@@ -5,6 +5,8 @@ import type { LocationDto } from 'types/location'
 import { useQuery } from 'vue-query'
 import { useCamps } from '~/composables/api/useCamps'
 
+const mapDictonary: Record<string, string> = {}
+
 export const useCampStore = defineStore('camps', () => {
   const campApi = useCamps()
 
@@ -13,7 +15,7 @@ export const useCampStore = defineStore('camps', () => {
     queryFn: campApi.getAll,
   })
 
-  const locationsMap: Record<string, string> = {}
+  const locationsMap = ref(mapDictonary)
 
   const camps = ref({
     data,
@@ -24,7 +26,7 @@ export const useCampStore = defineStore('camps', () => {
   })
 
   // mostRecentLocation takes an array of locations and returns the most recently created one
-  const getMostRecentCampLocation = (locations: LocationDto[]) => {
+  function getMostRecentCampLocation(locations: LocationDto[]) {
     let mostRecent = locations[0]
     locations.forEach((location: LocationDto) => {
       if (location.createdAt && mostRecent.createdAt) {
@@ -35,27 +37,28 @@ export const useCampStore = defineStore('camps', () => {
     return mostRecent
   }
 
-  const getCampsAtLocation = (location: string) => {
+  function getCampsAtLocation(location: string) {
     const camps = []
-    for (const key in locationsMap) {
+    for (const key in locationsMap.value) {
+      console.log('key and location', key, location)
       if (key.includes(location))
-        camps.push(locationsMap[key])
+        camps.push(locationsMap.value[key])
     }
     return camps
   }
 
-  // populates locationsMap
-  if (!camps.value.isLoading) {
+  if (camps.value.data) {
     camps.value.data.forEach((camp: CampWithLocationDto) => {
       if (camp.locations) {
         const mostRecent = getMostRecentCampLocation(camp.locations)
-        locationsMap[mostRecent.string] = camp.name
+        locationsMap.value[mostRecent.string] = camp.name
       }
     })
   }
 
   return {
     camps,
+    locationsMap,
     getCampsAtLocation,
     getMostRecentCampLocation,
   }
