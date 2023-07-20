@@ -7,6 +7,7 @@ import geoJson from './BurningMan.json'
 import polygons from './Polygons.json'
 import toilet from './toilet.png'
 
+const pointerLocation = ref()
 const hoverStyle = {
   fillOpacity: 0.9,
 }
@@ -24,6 +25,8 @@ let hoverId
 
 const campStore = useCampStore()
 
+// campStore.getMapDictionary()
+
 function onEachFeature(feature, layer) {
   // Set the default style into layer
   // Set the highlight style into layer when 'mouseover'
@@ -32,7 +35,8 @@ function onEachFeature(feature, layer) {
     layer.on('mouseover', () => {
       layer.setStyle(hoverStyle)
       hoverId = feature.properties.id
-      console.log(feature.properties.id)
+      pointerLocation.value = feature.properties.id
+      console.log('pointer', feature.properties.id)
       console.log(campStore.locationsMap)
       console.log(campStore.getCampsAtLocation(feature.properties.id))
     })
@@ -65,10 +69,17 @@ const mapOptions = ref({
     })
   },
 })
+
+watch(campStore.camps, (newUsername) => {
+  campStore.getMapDictionary()
+  // Do something with the updated value.
+})
 </script>
 
 <template>
   <div style="height:600px; width:1000px; margin:auto;">
+    {{ pointerLocation }}
+    {{ campStore.locationsMap }}
     <LMap
       ref="map"
       :zoom="13.5"
