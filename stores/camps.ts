@@ -1,9 +1,10 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import type { CampWithLocationDto } from 'types/camp'
 import type { LocationDto } from 'types/location'
 
 import { useQuery } from 'vue-query'
 import { useCamps } from '~/composables/api/useCamps'
+
+const test: { [name: string]: string } = {}
 
 export const useCampStore = defineStore('camps', () => {
   const campApi = useCamps()
@@ -13,7 +14,7 @@ export const useCampStore = defineStore('camps', () => {
     queryFn: campApi.getAll,
   })
 
-  const locationsMap = ref()
+  const locationsMap = ref(test)
 
   const camps = ref({
     data,
@@ -24,15 +25,12 @@ export const useCampStore = defineStore('camps', () => {
   })
 
   function getMapDictionary() {
-    console.log('inside getMap')
-    camps.value.data.forEach((camp: CampWithLocationDto) => {
-      if (camp.locations) {
-        console.log('has location')
+    camps.value.data.forEach((camp: any) => {
+      if (camp.locations.length > 0) {
         const mostRecent = getMostRecentCampLocation(camp.locations)
         locationsMap.value[mostRecent.string] = camp.name
       }
     })
-    console.log(locationsMap.value)
   }
 
   // mostRecentLocation takes an array of locations and returns the most recently created one
@@ -40,7 +38,7 @@ export const useCampStore = defineStore('camps', () => {
     let mostRecent = locations[0]
     locations.forEach((location: LocationDto) => {
       if (location.createdAt && mostRecent.createdAt) {
-        if (location.createdAt > mostRecent.createdAt)
+        if (Date.parse(location.createdAt) > Date.parse(mostRecent.createdAt))
           mostRecent = location
       }
     })
@@ -48,9 +46,9 @@ export const useCampStore = defineStore('camps', () => {
   }
 
   function getCampsAtLocation(location: string) {
+    console.log('inside getCampsAtLocation', location)
     const camps = []
     for (const key in locationsMap.value) {
-      console.log('key and location', key, location)
       if (key.includes(location))
         camps.push(locationsMap.value[key])
     }

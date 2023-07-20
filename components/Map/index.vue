@@ -24,8 +24,7 @@ const toiletIcon = new L.Icon({
 let hoverId
 
 const campStore = useCampStore()
-
-// campStore.getMapDictionary()
+console.log('campStore', campStore.camps.data)
 
 function onEachFeature(feature, layer) {
   // Set the default style into layer
@@ -37,7 +36,6 @@ function onEachFeature(feature, layer) {
       hoverId = feature.properties.id
       pointerLocation.value = feature.properties.id
       console.log('pointer', feature.properties.id)
-      console.log(campStore.locationsMap)
       console.log(campStore.getCampsAtLocation(feature.properties.id))
     })
     layer.on('mouseout', () => {
@@ -72,6 +70,7 @@ const mapOptions = ref({
 
 watch(campStore.camps, (newUsername) => {
   campStore.getMapDictionary()
+  console.log('dict', campStore.locationsMap)
   // Do something with the updated value.
 })
 </script>
@@ -79,7 +78,6 @@ watch(campStore.camps, (newUsername) => {
 <template>
   <div style="height:600px; width:1000px; margin:auto;">
     {{ pointerLocation }}
-    {{ campStore.locationsMap }}
     <LMap
       ref="map"
       :zoom="13.5"
