@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { useQuery } from 'vue-query'
-import { useCamps } from '~/composables/api/useCamps'
+import { useCampStore } from '../../stores/camps'
 
-const { getAll } = useCamps()
+const campStore = useCampStore()
 
-const { isLoading, refetch, isError, data, error } = useQuery({
-  queryKey: ['allCamps'],
-  queryFn: getAll,
-})
+const { data, isLoading } = campStore.camps
 </script>
 
 <template>

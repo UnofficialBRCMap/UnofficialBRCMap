@@ -48,7 +48,6 @@ function onEachFeature(feature, layer) {
       pointerLocation.value = feature.properties.id
       console.log('pointer', feature.properties.id)
       console.log(campStore.getCampsAtLocation(sillyFix(feature.properties.blockTime, feature.properties.roadLetter)))
-      console.log('what are the features', feature.properties)
     })
     layer.on('click', () => {
       console.log('click', feature.properties.id)
