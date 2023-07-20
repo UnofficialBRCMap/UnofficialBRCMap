@@ -1,3 +1,5 @@
+import type { LocationDto } from './location'
+
 export interface CampDto {
   name: string
   year: number
@@ -6,4 +8,8 @@ export interface CampDto {
   url?: string
   contact_email?: string
   hometown?: string
+}
+
+export interface CampWithLocationDto extends CampDto {
+  locations: LocationDto[]
 }

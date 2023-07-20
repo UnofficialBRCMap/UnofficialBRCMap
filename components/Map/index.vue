@@ -2,6 +2,7 @@
 import 'leaflet/dist/leaflet.css'
 import { LGeoJson, LMap } from '@vue-leaflet/vue-leaflet'
 import L from 'leaflet'
+import { useCampStore } from '../../stores/camps'
 import geoJson from './BurningMan.json'
 import polygons from './Polygons.json'
 import toilet from './toilet.png'
@@ -21,7 +22,7 @@ const toiletIcon = new L.Icon({
 
 let hoverId
 
-const onEachFeature = function (feature, layer) {
+function onEachFeature(feature, layer) {
   // Set the default style into layer
   // Set the highlight style into layer when 'mouseover'
   (function () {
@@ -37,12 +38,14 @@ const onEachFeature = function (feature, layer) {
   })(layer, feature.properties)
 }
 
-export default {
+export default defineComponent({
   components: {
     LMap,
     LGeoJson,
   },
   data() {
+    const campStore = useCampStore()
+    console.log(campStore.camps.data)
     return {
       geoJson,
       polygons,
@@ -66,7 +69,8 @@ export default {
       },
     }
   },
-}
+},
+)
 </script>
 
 <template>
