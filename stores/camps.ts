@@ -1,10 +1,11 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import type { CampWithLocationDto } from 'types/camp'
 import type { LocationDto } from 'types/location'
 
 import { useQuery } from 'vue-query'
 import { useCamps } from '~/composables/api/useCamps'
 
-const test: { [name: string]: string } = {}
+const test: { [location: string]: CampWithLocationDto[] } = {}
 
 export const useCampStore = defineStore('camps', () => {
   const campApi = useCamps()
@@ -25,10 +26,12 @@ export const useCampStore = defineStore('camps', () => {
   })
 
   function getMapDictionary() {
-    camps.value.data.forEach((camp: any) => {
+    camps.value.data.forEach((camp: CampWithLocationDto) => {
       if (camp.locations.length > 0) {
         const mostRecent = getMostRecentCampLocation(camp.locations)
-        locationsMap.value[mostRecent.string] = camp.name
+        if (typeof locationsMap.value[mostRecent.string] === 'undefined')
+          locationsMap.value[mostRecent.string] = []
+        locationsMap.value[mostRecent.string].push(camp)
       }
     })
   }
@@ -48,6 +51,7 @@ export const useCampStore = defineStore('camps', () => {
   function getCampsAtLocation(location: string) {
     console.log('inside getCampsAtLocation', location)
     const camps = []
+    console.log('camps found at location', camps)
     for (const key in locationsMap.value) {
       if (key.includes(location))
         camps.push(locationsMap.value[key])

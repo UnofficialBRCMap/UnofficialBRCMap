@@ -8,6 +8,7 @@ import polygons from './Polygons.json'
 import toilet from './toilet.png'
 
 const pointerLocation = ref()
+const selectedCamp = ref()
 const hoverStyle = {
   fillOpacity: 0.9,
 }
@@ -38,6 +39,11 @@ function onEachFeature(feature, layer) {
       console.log('pointer', feature.properties.id)
       console.log(campStore.getCampsAtLocation(feature.properties.id))
     })
+    layer.on('click', () => {
+      console.log('click', feature.properties.id)
+      selectedCamp.value = feature.properties.id
+    },
+    )
     layer.on('mouseout', () => {
       layer.setStyle(defaultStyle)
     })
@@ -78,6 +84,7 @@ watch(campStore.camps, (newUsername) => {
 <template>
   <div style="height:600px; width:1000px; margin:auto;">
     {{ pointerLocation }}
+    {{ selectedCamp }}
     <LMap
       ref="map"
       :zoom="13.5"
