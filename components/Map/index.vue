@@ -18,8 +18,8 @@ import {
   CNavbar,
 } from '@coreui/vue'
 import { ref } from 'vue'
-import Accordion from './Accordion'
 import { useCampStore } from '../../stores/camps'
+import Accordion from './Accordion'
 import geoJson from './BurningMan.json'
 import polygons from './Polygons.json'
 import toilet from './toilet.png'
@@ -65,7 +65,7 @@ function sillyFix(bt, letter) {
 }
 
 const campStore = useCampStore()
-console.log('campStore', campStore.camps.data)
+console.log('campStore', campStore.data)
 
 const center = [40.787030, -119.202740]
 const zoom = 13.5
@@ -79,7 +79,7 @@ const onEachFeature = function (feature, layer) {
   (function () {
     layer.on('mouseover', () => {
       layer.setStyle(hoverStyle)
-      hoverId = feature.properties.id
+      const hoverId = feature.properties.id
       console.log(feature.properties.id)
     })
     layer.on('click', () => {
@@ -125,7 +125,7 @@ const mapStyle = ({
 
 const polygonOptions = { onEachFeature }
 
-watch(campStore.camps, (newUsername) => {
+watch(campStore.data, (newUsername) => {
   campStore.getMapDictionary()
   console.log('dict', campStore.locationsMap)
   // Do something with the updated value.

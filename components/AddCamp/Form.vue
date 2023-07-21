@@ -45,7 +45,7 @@ const CAMP_OPTIONS = campList.map((camp: any) => {
 
 <template>
   <div class="w-80 text-left">
-    <div v-if="!isSuccess">
+    <div v-if="!isLoading">
       <FormKit
         type="form"
         @submit="addCampLocation"

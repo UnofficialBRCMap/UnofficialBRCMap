@@ -17,16 +17,8 @@ export const useCampStore = defineStore('camps', () => {
 
   const locationsMap = ref(test)
 
-  const camps = ref({
-    data,
-    isLoading,
-    isError,
-    error,
-    refetch,
-  })
-
   function getMapDictionary() {
-    camps.value.data.forEach((camp: CampWithLocationDto) => {
+    data.value.data.forEach((camp: CampWithLocationDto) => {
       if (camp.locations.length > 0) {
         const mostRecent = getMostRecentCampLocation(camp.locations)
         if (typeof locationsMap.value[mostRecent.string] === 'undefined')
@@ -59,7 +51,11 @@ export const useCampStore = defineStore('camps', () => {
   }
 
   return {
-    camps,
+    refetch,
+    isError,
+    data,
+    error,
+    isLoading,
     locationsMap,
     getCampsAtLocation,
     getMostRecentCampLocation,
