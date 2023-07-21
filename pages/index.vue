@@ -5,7 +5,7 @@ const router = useRouter()
 
 <template>
   <div class="w-full flex justify-center">
-    <div class="justify-left max-w-[1400px] flex flex-col items-start p-12 text-left">
+    <div class="justify-left mt-4 max-w-[1400px] flex flex-col items-start p-6 text-left">
       <h2 class="my-2 text-2xl font-semibold text-[#226e93]">
         IT HAS STARTED! Good news for map lovers:
       </h2>

@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex justify-center">
-    <div class="max-w-[1400px] flex flex-col p-4 text-left">
+    <div class="m-4 max-w-[1400px] flex flex-col text-left">
       <h2>About</h2>
       <p>
         First of all, the Unofficial BRC Map would not be possible without YOUR PARTICIPATION. We're merely the shell for all your shiny pearls of information! Thank you to all of our gracious contributors!
