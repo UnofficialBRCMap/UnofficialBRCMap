@@ -1,5 +1,5 @@
-export const appName = 'Vitesse for Nuxt 3'
-export const appDescription = 'Vitesse for Nuxt 3'
+export const appName = 'Unofficial BRC Map'
+export const appDescription = 'unofficialbrcmap.com'
 export const CAMP_ADDRESS_OPTIONS = [
   '2:00 & A',
   '2:00 & B',
