@@ -4,12 +4,12 @@ const router = useRouter()
 </script>
 
 <template>
-  <div>
-    <div class="justify-left flex flex-col items-start p-12 text-left">
-      <h2 class="my-2 text-xl font-semibold">
+  <div class="w-full flex justify-center">
+    <div class="justify-left max-w-[1400px] flex flex-col items-start p-12 text-left">
+      <h2 class="my-2 text-2xl font-semibold text-[#226e93]">
         Good news for map lovers:
       </h2>
-      <p>
+      <p class="py-4 text-lg">
         We have assembled a new team of developers who will be taking the Unofficial Map to the next level!
         <br><br>
         Stay tuned for updates when we'll share our new form for collecting theme camp addresses and art locations.

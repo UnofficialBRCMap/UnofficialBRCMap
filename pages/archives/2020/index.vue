@@ -1,5 +1,5 @@
 <template>
-  <h2>2019</h2>
+  <h2>2020</h2>
   <div class="w-full flex justify-center">
     <iframe src="https://www.google.com/maps/d/embed?mid=1dKrj-mN3LUqFzLjkNaOcQeJiRUWHpJO0&ehbc=2E312F" width="640" height="480" />
   </div>
