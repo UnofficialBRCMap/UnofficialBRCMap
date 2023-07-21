@@ -24,9 +24,15 @@
         Contact Us
       </h3>
       <p>
-        Email: feedback@unofficialbrcmap.com
+        Email: <a href="mailto:feedback@unofficialbrcmap.com">feedback@unofficialbrcmap.com</a>
         <br><br>
-        Follow us on Facebook:  https://www.facebook.com/unofficialBRCmap
+        Follow us on Facebook:  <a href="https://www.facebook.com/unofficialBRCmap">https://www.facebook.com/unofficialBRCmap</a>
+      </p>
+      <h3 class="my-2 text-2xl font-semibold text-[#226e93]">
+        Contribute
+      </h3>
+      <p>
+        github: <a href="https://github.com/thespacemaker/UnofficialBRCMap">https://github.com/thespacemaker/UnofficialBRCMap</a>
       </p>
     </div>
   </div>

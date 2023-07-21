@@ -52,7 +52,7 @@ const CAMP_OPTIONS = campList.map((camp: any) => {
       >
         <FormKit v-model="campForm" type="group">
           <h2 class="my-4">
-            Use the form below to add your camp!
+            It's coming! Use the form below to add your camp's location!
           </h2>
           <div v-if="!isLoading">
             <FormKit
@@ -75,6 +75,9 @@ const CAMP_OPTIONS = campList.map((camp: any) => {
           </div>
         </FormKit>
       </FormKit>
+      <span>The map will be launching soon! Thank you for your patience while we build the next iteration of The Unofficial BRC Map</span>
+      <br><br>
+      <span>Don't see your camp on the list? Don't worry! We will be adding a form to add your own camp's soon!</span>
     </div>
   </div>
   <span v-if="error">An error occurred: {{ error }}</span>
