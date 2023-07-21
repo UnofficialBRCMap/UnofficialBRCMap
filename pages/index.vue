@@ -12,7 +12,7 @@ const router = useRouter()
       <p class="py-4 text-lg">
         The Unofficial Map has moved to the next level!
         <br><br>
-        Use the new <a href="/addyourcamp">form</a> for collecting theme camp addresses and (soon!) art locations.
+        Use the new <a href="/add-your-camp">form</a> for collecting theme camp addresses and (soon!) art locations.
         <br><br>
         Also, if you'd like to help contribute to the Unofficial Map project click <a href="/about">here</a> to learn more about our project! More to come as soon as possible!
         <br><br>

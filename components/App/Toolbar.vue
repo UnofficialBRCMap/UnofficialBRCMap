@@ -25,12 +25,12 @@ const show = ref(false)
               <a class="block rounded bg-blue-700 py-2 pl-3 pr-4 md:bg-transparent md:p-0 dark:text-white md:text-blue-700 md:dark:text-blue-500" aria-current="page">Home</a>
             </li>
           </NuxtLink>
-          <NuxtLink class="no-underline" to="/addyourcamp">
+          <NuxtLink class="no-underline" to="/add-your-camp">
             <li>
               <a class="block rounded py-2 pl-3 pr-4 text-gray-900 no-underline md:border-0 hover:bg-gray-100 md:p-0 dark:text-white dark:hover:bg-gray-700 md:hover:bg-transparent dark:hover:text-white md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500">Add Your Camp</a>
             </li>
           </NuxtLink>
-          <NuxtLink class="no-underline" to="/addyourart">
+          <NuxtLink class="no-underline" to="/add-your-art">
             <li>
               <a class="block rounded py-2 pl-3 pr-4 text-gray-900 no-underline md:border-0 hover:bg-gray-100 md:p-0 dark:text-white dark:hover:bg-gray-700 md:hover:bg-transparent dark:hover:text-white md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500">Add Your Art</a>
             </li>
@@ -62,12 +62,12 @@ const show = ref(false)
               <a class="pr-4md:bg-transparent block rounded py-2 pl-3 md:p-0 dark:text-white md:text-blue-700 md:dark:text-blue-500" aria-current="page">Home</a>
             </li>
           </NuxtLink>
-          <NuxtLink class="no-underline" to="/addyourcamp" @click="show = false">
+          <NuxtLink class="no-underline" to="/add-your-camp" @click="show = false">
             <li>
               <a class="block rounded py-2 pl-3 pr-4 text-gray-900 no-underline md:border-0 hover:bg-gray-100 md:p-0 dark:text-white dark:hover:bg-gray-700 md:hover:bg-transparent dark:hover:text-white md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500">Add Your Camp</a>
             </li>
           </NuxtLink>
-          <NuxtLink class="no-underline" to="/addyourart" @click="show = false">
+          <NuxtLink class="no-underline" to="/add-your-art" @click="show = false">
             <li>
               <a class="block rounded py-2 pl-3 pr-4 text-gray-900 no-underline md:border-0 hover:bg-gray-100 md:p-0 dark:text-white dark:hover:bg-gray-700 md:hover:bg-transparent dark:hover:text-white md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500">Add Your Art</a>
             </li>
