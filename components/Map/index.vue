@@ -1,4 +1,4 @@
-<script>
+<script setup lang="ts">
 import 'leaflet/dist/leaflet.css'
 import { LGeoJson, LMap } from '@vue-leaflet/vue-leaflet'
 import L from 'leaflet'
@@ -85,55 +85,22 @@ function handleZoom(zoom) {
   showPolygons.value = zoom < 17
 }
 
-export default {
-  components: {
-    LMap,
-    LGeoJson,
-    Accordion,
-    CContainer,
-    CCardGroup,
-    CCard,
-    CCardTitle,
-    CCardBody,
-    CCardHeader,
-    CCloseButton,
-    CNavItem,
-    CNav,
-    CFormInput,
-    CNavbar,
-    CForm,
-    CButton,
-  },
-  data() {
-    return {
-      geoJson,
-      polygons,
-      blockId,
-      mapStyle: () => ({
-        color: '#192841',
-        weight: 1.5,
-        opacity: 1,
-        fillOpacity: 1,
-      }),
-      polygonStyle: () => defaultStyle,
-      polygonOptions: { onEachFeature },
-      onEachFeature,
-      mapOptions: {
-        pointToLayer(feature, latlng) {
-          return L.marker(latlng, {
-            icon: toiletIcon,
-          })
-        },
-      },
-      clearBlock,
-      handleZoom,
-      showPolygons,
-      map,
-      center,
-      zoom,
-    }
+const mapOptions = {
+  pointToLayer(feature, latlng) {
+    return L.marker(latlng, {
+      icon: toiletIcon,
+    })
   },
 }
+
+const mapStyle = ({
+  color: '#192841',
+  weight: 1.5,
+  opacity: 1,
+  fillOpacity: 1,
+})
+
+const polygonOptions = { onEachFeature }
 </script>
 
 <template>
@@ -160,7 +127,7 @@ export default {
           <LGeoJson
             :visible="showPolygons"
             :geojson="polygons"
-            :options-style="polygonStyle"
+            :options-style="defaultStyle"
             :options="polygonOptions"
             :on-each-feature="onEachFeature"
             layer-type="overlay"
@@ -178,7 +145,7 @@ export default {
           <CNav class="justify-content-start">
             <CNavItem>
               <CCloseButton
-                :onClick="clearBlock"
+                :on-click="clearBlock"
               />
             </CNavItem>
           </CNav>
