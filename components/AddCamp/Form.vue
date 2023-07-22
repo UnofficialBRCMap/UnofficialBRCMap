@@ -44,8 +44,6 @@ const CAMP_OPTIONS = campList.map((camp: any) => {
 })
 
 const addressSelection = computed(() => {
-  console.log('campForm.value', campForm.value)
-
   if (campForm.value.addressType === 'Letter') {
     return CAMP_ADDRESS_OPTIONS.filter((address) => {
       return address.charAt(0).match(/[a-z]/i)
