@@ -36,7 +36,7 @@ const defaultStyle = {
   fillOpacity: 0.6,
   color: '#961f12',
   fillColor: '#ba5545',
-  weight: 1,
+  weight: 0,
 }
 
 const selectedStyle = {
