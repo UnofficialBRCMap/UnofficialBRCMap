@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMutation } from 'vue-query'
-import { CAMP_ADDRESS_OPTIONS } from '~/constants/index'
+import { CAMP_ADDRESS_OPTIONS, CENTER_CAMP_ADDRESS_OPTIONS } from '~/constants/index'
 import { useAlertStore } from '~/stores/alert'
 import { useCamps } from '~/composables/api/useCamps'
 
@@ -56,6 +56,9 @@ const addressSelection = computed(() => {
     })
   }
 
+  if (campForm.value.addressType === 'Center Camp Plaza')
+    return CENTER_CAMP_ADDRESS_OPTIONS
+
   if (campForm.value.addressType === '')
     return []
 })
@@ -87,11 +90,12 @@ const addressSelection = computed(() => {
                 placeholder="Select"
                 name="addressType"
                 label="Address Type"
-                help="Does your address start with a letter, or a number?"
+                help="Does your address start with a letter, or a number, or are you somewhere in Center Camp Plaza?"
                 validation="required"
                 :options="[
                   { label: 'Letter', value: 'Letter' },
                   { label: 'Number', value: 'Number' },
+                  { label: 'Center Camp Plaza', value: 'Center Camp Plaza' },
                 ]"
               />
               <FormKit
