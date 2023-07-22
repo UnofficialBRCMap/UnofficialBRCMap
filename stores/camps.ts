@@ -42,7 +42,6 @@ export const useCampStore = defineStore('camps', () => {
 
   function getCampsAtLocation(location: string) {
     const camps: any[] = []
-    console.log('camps found at location', camps)
     for (const key in locationsMap.value) {
       if (key.includes(location))
         camps.push(locationsMap.value[key])

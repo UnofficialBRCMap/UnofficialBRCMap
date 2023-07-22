@@ -16,7 +16,7 @@ const submitted = ref(false)
 function useCreateCamp() {
   return useMutation((formSubmission: any) => addLocationByCampId(formSubmission.id, { string: formSubmission.address }),
     {
-      onSuccess: (data: any, variables, context) => {
+      onSuccess: (data: any, _, __) => {
         submitted.value = true
         window.console.log('data from api', data)
         // alertStore.setAlert('Successfully Added Location', 'green')
@@ -29,6 +29,7 @@ const { isLoading, isError, error, isSuccess, mutate } = useCreateCamp()
 const campForm = ref({
   id: '',
   address: '',
+  addressType: '',
 })
 
 function addCampLocation() {
@@ -40,6 +41,25 @@ const CAMP_OPTIONS = campList.map((camp: any) => {
     label: camp.name,
     value: camp.uid,
   }
+})
+
+const addressSelection = computed(() => {
+  console.log('campForm.value', campForm.value)
+
+  if (campForm.value.addressType === 'Letter') {
+    return CAMP_ADDRESS_OPTIONS.filter((address) => {
+      return address.charAt(0).match(/[a-z]/i)
+    })
+  }
+
+  if (campForm.value.addressType === 'Number') {
+    return CAMP_ADDRESS_OPTIONS.filter((address) => {
+      return address.charAt(0).match(/[0-9]/i)
+    })
+  }
+
+  if (campForm.value.addressType === '')
+    return []
 })
 </script>
 
@@ -67,11 +87,22 @@ const CAMP_OPTIONS = campList.map((camp: any) => {
               <FormKit
                 type="select"
                 placeholder="Select"
+                name="addressType"
+                label="Address Type"
+                help="Does your address start with a letter, or a number?"
+                validation="required"
+                :options="[
+                  { label: 'Letter', value: 'Letter' },
+                  { label: 'Number', value: 'Number' },
+                ]"
+              />
+              <FormKit
+                type="select"
+                placeholder="Select"
                 name="address"
                 label="Address"
-                help="Order matters '2:00 & A' is a different from 'A & 2:00'"
                 validation="required"
-                :options="CAMP_ADDRESS_OPTIONS"
+                :options="addressSelection"
               />
             </div>
           </FormKit>
