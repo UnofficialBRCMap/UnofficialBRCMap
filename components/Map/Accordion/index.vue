@@ -1,4 +1,4 @@
-<script>
+<script setup lang="ts">
 import '@coreui/coreui/dist/css/coreui.min.css'
 import {
   CAccordion,
@@ -7,50 +7,23 @@ import {
   CAccordionItem,
 } from '@coreui/vue'
 
-export default {
-  components: {
-    CAccordion,
-    CAccordionBody,
-    CAccordionHeader,
-    CAccordionItem,
-  },
-  props: {
-    block: String,
-  },
-  data() {
-    return {
-    }
-  },
-}
+const props = defineProps({
+  block: String,
+  camps: Array,
+})
+
+console.log('accordion props', props.camps)
 </script>
 
 <template>
-  <div>{{ block }}</div>
+  <div>{{ props.block }}</div>
   <div>
     <CAccordion flush>
-      <CAccordionItem :item-key="1">
+      <CAccordionItem v-for="camp in props.camps" :key="camp.uid">
         <CAccordionHeader>
-          Accordion Item #1
+          {{ camp.name }}
         </CAccordionHeader>
-        <CAccordionBody>
-          dfasdfasdfasdfadfa
-        </CAccordionBody>
-      </CAccordionItem>
-      <CAccordionItem :item-key="2">
-        <CAccordionHeader>
-          Accordion Item #2
-        </CAccordionHeader>
-        <CAccordionBody>
-          dfadfasdfa
-        </CAccordionBody>
-      </CAccordionItem>
-      <CAccordionItem :item-key="3">
-        <CAccordionHeader>
-          Accordion Item #3
-        </CAccordionHeader>
-        <CAccordionBody>
-          adfasdfasdf
-        </CAccordionBody>
+        <CAccordionBody>{{ camp.description }}</CAccordionBody>
       </CAccordionItem>
     </CAccordion>
   </div>

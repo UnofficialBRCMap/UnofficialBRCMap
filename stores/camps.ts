@@ -5,20 +5,26 @@ import type { LocationDto } from 'types/location'
 import { useQuery } from 'vue-query'
 import { useCamps } from '~/composables/api/useCamps'
 
-const test: { [location: string]: CampWithLocationDto[] } = {}
+const locationType: { [location: string]: CampWithLocationDto[] } = {}
 
 export const useCampStore = defineStore('camps', () => {
   const campApi = useCamps()
+
+  const locationsMap = ref(locationType)
 
   const { isLoading, refetch, isError, data, error } = useQuery({
     queryKey: ['allCamps'],
     queryFn: campApi.getAll,
   })
 
-  const locationsMap = ref(test)
+  const mapDictionary = computed(() => {
+    if (data.value)
+      return getMapDictionary(data.value)
+  },
+  )
 
-  function getMapDictionary() {
-    data.value.data.forEach((camp: CampWithLocationDto) => {
+  function getMapDictionary(campData: CampWithLocationDto[]) {
+    campData.forEach((camp: CampWithLocationDto) => {
       if (camp.locations.length > 0) {
         const mostRecent = getMostRecentCampLocation(camp.locations)
         if (typeof locationsMap.value[mostRecent.string] === 'undefined')
@@ -26,6 +32,7 @@ export const useCampStore = defineStore('camps', () => {
         locationsMap.value[mostRecent.string].push(camp)
       }
     })
+    return locationsMap.value
   }
 
   // mostRecentLocation takes an array of locations and returns the most recently created one
@@ -40,28 +47,25 @@ export const useCampStore = defineStore('camps', () => {
     return mostRecent
   }
 
-  function getCampsAtLocation(location: string) {
-    const camps: any[] = []
-    for (const key in locationsMap.value) {
-      if (key.includes(location))
-        camps.push(locationsMap.value[key])
+  function getCampsAtLocation(location: string, mapDictionary) {
+    const camps: CampWithLocationDto[] = []
+    if (Object.hasOwn(mapDictionary, location)) {
+      for (const camp of mapDictionary[location])
+        camps.push(camp)
     }
     return camps
   }
 
   return {
-    refetch,
+    isLoading,
     isError,
     data,
-    error,
-    isLoading,
     locationsMap,
+    mapDictionary,
     getCampsAtLocation,
     getMostRecentCampLocation,
-    getMapDictionary,
   }
-},
-)
+})
 
 if (import.meta.hot)
   import.meta.hot.accept(acceptHMRUpdate(useCampStore as any, import.meta.hot))

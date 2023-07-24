@@ -19,7 +19,7 @@ import {
 } from '@coreui/vue'
 import { ref } from 'vue'
 import { useCampStore } from '../../stores/camps'
-import Accordion from './Accordion'
+import Accordion from './Accordion/index.vue'
 import geoJson from './BurningMan.json'
 import polygons from './Polygons.json'
 import toilet from './toilet.png'
@@ -54,7 +54,7 @@ const showPolygons = ref(true)
 const block = ref(undefined)
 const map = ref(undefined)
 
-function sillyFix(bt, letter) {
+function sillyFix(bt: any, letter: any) {
   const n = new Date(0, 0)
   n.setSeconds(+bt * 60 * 60)
   let s = n.toTimeString().slice(0, 5)
@@ -65,7 +65,6 @@ function sillyFix(bt, letter) {
 }
 
 const campStore = useCampStore()
-console.log('campStore', campStore.data)
 
 const center = [40.787030, -119.202740]
 const zoom = 13.5
@@ -75,7 +74,7 @@ const clearBlock = function () {
   block.value.setStyle(defaultStyle)
 }
 
-const onEachFeature = function (feature, layer) {
+const onEachFeature = function (feature: any, layer: any) {
   (function () {
     layer.on('mouseover', () => {
       layer.setStyle(hoverStyle)
@@ -84,7 +83,8 @@ const onEachFeature = function (feature, layer) {
     })
     layer.on('click', () => {
       console.log('click', feature.properties.id)
-      selectedCamp.value = feature.properties.id
+      selectedCamp.value = campStore.getCampsAtLocation(sillyFix(feature.properties.blockTime, feature.properties.roadLetter), campStore.mapDictionary)
+      console.log('selectedCamp', selectedCamp.value)
     },
     )
     layer.on('mouseout', () => {
@@ -101,15 +101,15 @@ const onEachFeature = function (feature, layer) {
       const newCenter = [(layer._bounds._northEast.lat + layer._bounds._southWest.lat) / 2, (layer._bounds._northEast.lng + layer._bounds._southWest.lng) / 2]
       map.value.setView(newCenter, 16)
     })
-  })(layer, feature.properties)
+  })()
 }
 
-function handleZoom(zoom) {
+function handleZoom(zoom: any) {
   showPolygons.value = zoom < 17
 }
 
 const mapOptions = {
-  pointToLayer(feature, latlng) {
+  pointToLayer(__: any, latlng: any) {
     return L.marker(latlng, {
       icon: toiletIcon,
     })
@@ -124,12 +124,6 @@ const mapStyle = ({
 })
 
 const polygonOptions = { onEachFeature }
-
-watch(campStore.data, (newUsername) => {
-  campStore.getMapDictionary()
-  console.log('dict', campStore.locationsMap)
-  // Do something with the updated value.
-})
 </script>
 
 <template>
@@ -181,7 +175,7 @@ watch(campStore.data, (newUsername) => {
         </CCardHeader>
         <CCardBody>
           <CCardTitle>{{ blockId }}</CCardTitle>
-          <Accordion />
+          <Accordion :camps="selectedCamp" />
         </CCardBody>
       </CCard>
     </CCardGroup>
