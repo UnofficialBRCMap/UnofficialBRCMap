@@ -90,14 +90,14 @@ const addressSelection = computed(() => {
                 placeholder="Select"
                 name="addressType"
                 label="Address Type"
-                help="Does your address start with a letter, or a number, or are you somewhere in Center Camp Plaza?"
+                help="Does your address start with a letter, or a number (There is a difference! Please check!) or are you somewhere in Center Camp Plaza/Rod's Ring Road?"
                 validation="required"
                 :options="[
                   { label: 'Letter', value: 'Letter' },
                   { label: 'Number', value: 'Number' },
-                  { label: 'Center Camp Plaza', value: 'Center Camp Plaza' },
+                  { label: 'Center Camp/Rods Ring Road', value: 'Center Camp Plaza' },
                 ]"
-              />
+              />-
               <FormKit
                 type="select"
                 placeholder="Select"
