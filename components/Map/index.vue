@@ -76,22 +76,21 @@ const clearBlock = function () {
 
 const onEachFeature = function (feature: any, layer: any) {
   (function () {
+    layer
     layer.on('mouseover', () => {
       layer.setStyle(hoverStyle)
       const hoverId = feature.properties.id
       console.log(feature.properties.id)
+      console.log(feature.coordinates)
     })
-    layer.on('click', () => {
-      console.log('click', feature.properties.id)
-      selectedCamp.value = campStore.getCampsAtLocation(sillyFix(feature.properties.blockTime, feature.properties.roadLetter), campStore.mapDictionary)
-      console.log('selectedCamp', selectedCamp.value)
-    },
-    )
     layer.on('mouseout', () => {
       if (feature.properties.id !== blockId.value)
         layer.setStyle(defaultStyle)
     })
     layer.on('click', () => {
+      console.log('click', feature.properties.id)
+      selectedCamp.value = campStore.getCampsAtLocation(sillyFix(feature.properties.blockTime, feature.properties.roadLetter), campStore.mapDictionary)
+      console.log('selectedCamp', selectedCamp.value)
       // remove selectedStyle from the previous block
       if (block.value)
         block.value.setStyle(defaultStyle)

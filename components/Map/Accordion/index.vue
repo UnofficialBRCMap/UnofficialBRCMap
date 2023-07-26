@@ -11,8 +11,6 @@ const props = defineProps({
   block: String,
   camps: Array,
 })
-
-console.log('accordion props', props.camps)
 </script>
 
 <template>
