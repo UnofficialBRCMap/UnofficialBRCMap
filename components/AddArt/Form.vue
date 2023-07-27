@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { useMutation } from 'vue-query'
-import { useAlertStore } from '~/stores/alert'
 import { useArts } from '~/composables/api/useArts'
 
 const { artList = [] } = defineProps<{
   artList: Array<any>
 }>()
 
-const alertStore = useAlertStore()
 const { addLocationByArtId } = useArts()
 
 const submitted = ref(false)
@@ -58,43 +56,24 @@ const ART_OPTIONS = computed(() => {
     }
   })
 })
-
-// const ART_OPTIONS = artList.map((art: any) => {
-//   return {
-//     label: art.name,
-//     value: art.uid,
-//   }
-// })
 </script>
 
 <template>
   <div class="w-80 text-left">
     <div v-if="!isLoading">
       <div v-if="!isSuccess">
-        <FormKit
-          type="form"
-          @submit="addArtLocation"
-        >
+        <FormKit type="form" @submit="addArtLocation">
           <FormKit v-model="artForm" type="group">
             <h2 class="my-4">
               It's coming! Use the form below to add your art's location!
             </h2>
             <div v-if="!isLoading">
               <FormKit
-                type="select"
-                placeholder="Select"
-                name="id"
-                label="Art Name"
-                validation="required"
+                type="select" placeholder="Select" name="id" label="Art Name" validation="required"
                 :options="ART_OPTIONS"
               />
               <FormKit
-                type="select"
-                placeholder="Select"
-                name="hour"
-                label="Clock Hour"
-                validation="required"
-                :options="[
+                type="select" placeholder="Select" name="hour" label="Clock Hour" validation="required" :options="[
                   { label: '12:00', value: 12 },
                   { label: '01:00', value: 1 },
                   { label: '02:00', value: 2 },
@@ -110,21 +89,10 @@ const ART_OPTIONS = computed(() => {
                 ]"
               />
               <FormKit
-                type="number"
-                placeholder="Enter Clock Minute"
-                name="minute"
-                label="Clock Minute"
-                validation="required|min:0|max:59"
-                :min="0"
-                :max="59"
+                type="number" placeholder="Enter Clock Minute" name="minute" label="Clock Minute"
+                validation="required|min:0|max:59" :min="0" :max="59"
               />
-              <FormKit
-                type="number"
-                placeholder="Enter Feet from Man"
-                name="feet"
-                label="Feet"
-                validation="required"
-              />
+              <FormKit type="number" placeholder="Enter Feet from Man" name="feet" label="Feet" validation="required" />
             </div>
           </FormKit>
         </FormKit>
@@ -135,7 +103,8 @@ const ART_OPTIONS = computed(() => {
         </h4>
       </div>
 
-      <span>The map will be launching soon! Thank you for your patience while we build the next iteration of The Unofficial BRC Map</span>
+      <span>The map will be launching soon! Thank you for your patience while we build the next iteration of The
+        Unofficial BRC Map</span>
       <br><br>
       <span>Don't see your art on the list? Don't worry! We will be adding a form to add your own art soon!</span>
     </div>
