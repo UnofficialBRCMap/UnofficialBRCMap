@@ -13,7 +13,7 @@ const { addLocationByArtId } = useArts()
 const submitted = ref(false)
 
 function useCreateArt() {
-  return useMutation((formSubmission: any) => addLocationByArtId(formSubmission.id, { hour: formSubmission.hour, minute: formSubmission.minute, feet: formSubmission.feet }),
+  return useMutation((formSubmission: any) => addLocationByArtId(formSubmission.id, { string: formSubmission.id, hour: formSubmission.hour, minute: formSubmission.minute, distance: formSubmission.feet }),
     {
       onSuccess: (data: any, _, __) => {
         submitted.value = true

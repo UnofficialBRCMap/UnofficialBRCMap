@@ -59,13 +59,6 @@ const CAMP_OPTIONS = computed(() => {
   })
 })
 
-// const CAMP_OPTIONS = campList.map((camp: any) => {
-//   return {
-//     label: camp.name,
-//     value: camp.uid,
-//   }
-// })
-
 const addressSelection = computed(() => {
   if (campForm.value.addressType === 'Letter') {
     return CAMP_ADDRESS_OPTIONS.filter((address) => {
