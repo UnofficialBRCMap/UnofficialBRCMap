@@ -36,12 +36,35 @@ function addCampLocation() {
   mutate(campForm.value)
 }
 
-const CAMP_OPTIONS = campList.map((camp: any) => {
-  return {
-    label: camp.name,
-    value: camp.uid,
-  }
+// sortCampList sorts the camplist array by name
+function sortCampList(campList: any[]) {
+  campList.sort((a: any, b: any) => {
+    const nameA = a.name.toUpperCase()
+    const nameB = b.name.toUpperCase()
+    if (nameA < nameB)
+      return -1
+    if (nameA > nameB)
+      return 1
+    return 0
+  })
+  return campList
+}
+
+const CAMP_OPTIONS = computed(() => {
+  return sortCampList(campList).map((camp: any) => {
+    return {
+      label: camp.name,
+      value: camp.uid,
+    }
+  })
 })
+
+// const CAMP_OPTIONS = campList.map((camp: any) => {
+//   return {
+//     label: camp.name,
+//     value: camp.uid,
+//   }
+// })
 
 const addressSelection = computed(() => {
   if (campForm.value.addressType === 'Letter') {
@@ -90,7 +113,7 @@ const addressSelection = computed(() => {
                 placeholder="Select"
                 name="addressType"
                 label="Address Type"
-                help="Does your address start with a letter, or a number (There is a difference! Please check!) or are you somewhere in Center Camp Plaza/Rod's Ring Road?"
+                help="The specific order your address was provided by Placement will list your frontage first. Is your camp located on a letter or a number street, or within Center Camp Plaza/Rod's Ring Road?"
                 validation="required"
                 :options="[
                   { label: 'Letter', value: 'Letter' },
