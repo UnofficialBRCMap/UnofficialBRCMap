@@ -6,11 +6,12 @@ import {
   CAccordionHeader,
   CAccordionItem,
 } from '@coreui/vue'
+import type { LocationDictionary } from 'types/camp'
 
-const props = defineProps({
-  block: String,
-  camps: Array,
-})
+const props = defineProps<{
+  block: string
+  camps: LocationDictionary[]
+}>()
 </script>
 
 <template>

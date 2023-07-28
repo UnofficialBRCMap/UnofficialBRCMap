@@ -47,13 +47,20 @@ export const useCampStore = defineStore('camps', () => {
     return mostRecent
   }
 
-  function getCampsAtLocation(location: string, mapDictionary: any) {
-    const camps: CampWithLocationDto[] = []
-    if (Object.hasOwn(mapDictionary, location)) {
-      for (const camp of mapDictionary[location])
-        camps.push(camp)
+  function getCampsAtLocation(locations: string[], mapDictionary: any) {
+    const dict: { [local: string]: CampWithLocationDto[] } = {}
+
+    for (const location of locations) {
+      if (Object.hasOwn(mapDictionary, location)) {
+        for (const camp of mapDictionary[location]) {
+          if (typeof dict[location] === 'undefined')
+            dict[location] = [camp]
+          else
+            dict[location].push(camp)
+        }
+      }
     }
-    return camps
+    return dict
   }
 
   return {

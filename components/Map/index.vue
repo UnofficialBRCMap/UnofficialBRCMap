@@ -54,14 +54,25 @@ const showPolygons = ref(true)
 const block = ref(undefined)
 const map = ref(undefined)
 
-function sillyFix(bt: any, letter: any) {
+function formatBlockAddress(bt: any, letter: any, inverted: boolean) {
   const n = new Date(0, 0)
   n.setSeconds(+bt * 60 * 60)
   let s = n.toTimeString().slice(0, 5)
   if (s.charAt(0) === '0')
     s = s.slice(1, 5)
 
-  return `${s} & ${letter}`
+  if (!inverted)
+    return `${s} & ${letter}`
+
+  return `${letter} & ${s}`
+}
+
+// getAllCampLocationOptions is a function that takes in a blockTime and roadLetter and returns all three versions for that block
+function getAllCampLocationOptions(blockTime: any, roadLetter: any) {
+  return [
+    formatBlockAddress(blockTime, roadLetter, false),
+    formatBlockAddress(blockTime, roadLetter, true),
+  ]
 }
 
 const campStore = useCampStore()
@@ -76,7 +87,6 @@ const clearBlock = function () {
 
 const onEachFeature = function (feature: any, layer: any) {
   (function () {
-    layer
     layer.on('mouseover', () => {
       layer.setStyle(hoverStyle)
       const hoverId = feature.properties.id
@@ -89,7 +99,7 @@ const onEachFeature = function (feature: any, layer: any) {
     })
     layer.on('click', () => {
       console.log('click', feature.properties.id)
-      selectedCamp.value = campStore.getCampsAtLocation(sillyFix(feature.properties.blockTime, feature.properties.roadLetter), campStore.mapDictionary)
+      selectedCamp.value = campStore.getCampsAtLocation(getAllCampLocationOptions(feature.properties.blockTime, feature.properties.roadLetter), campStore.mapDictionary)
       console.log('selectedCamp', selectedCamp.value)
       // remove selectedStyle from the previous block
       if (block.value)
@@ -174,7 +184,7 @@ const polygonOptions = { onEachFeature }
         </CCardHeader>
         <CCardBody>
           <CCardTitle>{{ blockId }}</CCardTitle>
-          <Accordion :camps="selectedCamp" />
+          <Accordion :block="blockId" :camps="selectedCamp" />
         </CCardBody>
       </CCard>
     </CCardGroup>
