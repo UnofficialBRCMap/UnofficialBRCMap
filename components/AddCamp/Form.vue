@@ -39,18 +39,18 @@ function addCampLocation() {
 // sortCampList sorts the camplist array by name
 function sortCampList(campList: any[]) {
   const list = campList.sort((a: any, b: any) => {
-    return a.name?.toLowerCase().localeCompare(b.name?.toLowerCase())
+    return a.label?.localeCompare(b.label, undefined, { sensitivity: 'base' })
   })
   return list
 }
 
 const CAMP_OPTIONS = computed(() => {
-  return sortCampList(campList).map((camp: any) => {
+  return sortCampList(campList.map((camp: any) => {
     return {
       label: camp.name,
       value: camp.uid,
     }
-  })
+  }))
 })
 
 const addressSelection = computed(() => {
