@@ -39,7 +39,7 @@ function addCampLocation() {
 // sortCampList sorts the camplist array by name
 function sortCampList(campList: any[]) {
   const list = campList.sort((a: any, b: any) => {
-    return a.toLowerCase().localeCompare(b.toLowerCase())
+    return a.name?.toLowerCase().localeCompare(b.name?.toLowerCase())
   })
   return list
 }
