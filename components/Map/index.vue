@@ -67,12 +67,31 @@ function formatBlockAddress(bt: any, letter: any, inverted: boolean) {
   return `${letter} & ${s}`
 }
 
+// formateEdgeBlockAddress returns the blocktime as either 30 minutes less, or 15 minutes less if the letter is E or above
+function formatEdgeBlockAddress(blockTime: any, letter: any) {
+  const n = new Date(0, 0)
+  n.setSeconds(+blockTime * 60 * 60)
+  if (letter < 'E')
+    n.setMinutes(n.getMinutes() - 30)
+  else
+    n.setMinutes(n.getMinutes() - 45)
+
+  let s = n.toTimeString().slice(0, 5)
+  if (s.charAt(0) === '0')
+    s = s.slice(1, 5)
+
+  return `${letter} & ${s}`
+}
+
 // getAllCampLocationOptions is a function that takes in a blockTime and roadLetter and returns all three versions for that block
 function getAllCampLocationOptions(blockTime: any, roadLetter: any) {
-  return [
+  const returns = [
     formatBlockAddress(blockTime, roadLetter, false),
     formatBlockAddress(blockTime, roadLetter, true),
+    formatEdgeBlockAddress(blockTime, roadLetter),
   ]
+  console.log('blocks to lookup', returns)
+  return returns
 }
 
 const campStore = useCampStore()
@@ -90,8 +109,6 @@ const onEachFeature = function (feature: any, layer: any) {
     layer.on('mouseover', () => {
       layer.setStyle(hoverStyle)
       const hoverId = feature.properties.id
-      console.log(feature.properties.id)
-      console.log(feature.coordinates)
     })
     layer.on('mouseout', () => {
       if (feature.properties.id !== blockId.value)

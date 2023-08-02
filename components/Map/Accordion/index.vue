@@ -1,28 +1,30 @@
 <script setup lang="ts">
 import '@coreui/coreui/dist/css/coreui.min.css'
-import {
-  CAccordion,
-  CAccordionBody,
-  CAccordionHeader,
-  CAccordionItem,
-} from '@coreui/vue'
+
 import type { LocationDictionary } from 'types/camp'
 
 const props = defineProps<{
   block: string
   camps: LocationDictionary[]
 }>()
+
+console.log('what have we got', props.camps)
 </script>
 
 <template>
-  <div>{{ props.block }}</div>
   <div>
     <CAccordion flush>
-      <CAccordionItem v-for="camp in props.camps" :key="camp.uid">
+      <CAccordionItem v-for="(item, key) in props.camps">
         <CAccordionHeader>
-          {{ camp.name }}
+          {{ key }}
+          {{ console.log("the fuck is item", item) }}
         </CAccordionHeader>
-        <CAccordionBody>{{ camp.description }}</CAccordionBody>
+        <template v-for="campArray in item">
+          {{ console.log('what is campArray here', campArray) }}
+          <CAccordionHeader>
+            {{ campArray.name }}
+          </CAccordionHeader>
+        </template>
       </CAccordionItem>
     </CAccordion>
   </div>

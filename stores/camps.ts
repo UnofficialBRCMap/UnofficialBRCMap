@@ -51,15 +51,19 @@ export const useCampStore = defineStore('camps', () => {
     const dict: { [local: string]: CampWithLocationDto[] } = {}
 
     for (const location of locations) {
-      if (Object.hasOwn(mapDictionary, location)) {
-        for (const camp of mapDictionary[location]) {
-          if (typeof dict[location] === 'undefined')
-            dict[location] = [camp]
-          else
-            dict[location].push(camp)
+      console.log('location to search for', location)
+      if (location) {
+        if (Object.hasOwn(mapDictionary, location)) {
+          for (const camp of mapDictionary[location]) {
+            if (typeof dict[location] === 'undefined')
+              dict[location] = [camp]
+            else
+              dict[location].push(camp)
+          }
         }
       }
     }
+    console.log('finished dict', dict)
     return dict
   }
 
