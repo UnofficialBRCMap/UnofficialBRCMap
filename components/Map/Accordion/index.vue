@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import '@coreui/coreui/dist/css/coreui.min.css'
+import {
+  CAccordion,
+  CAccordionBody,
+  CAccordionHeader,
+  CAccordionItem,
+} from '@coreui/vue'
 
 import type { LocationDictionary } from 'types/camp'
 
@@ -13,17 +19,19 @@ console.log('what have we got', props.camps)
 
 <template>
   <div>
-    <CAccordion flush>
+    <CAccordion>
       <CAccordionItem v-for="(item, key) in props.camps">
-        <CAccordionHeader>
-          {{ key }}
-          {{ console.log("the fuck is item", item) }}
-        </CAccordionHeader>
+        {{ key }}
         <template v-for="campArray in item">
           {{ console.log('what is campArray here', campArray) }}
-          <CAccordionHeader>
-            {{ campArray.name }}
-          </CAccordionHeader>
+          <CAccordionItem>
+            <CAccordionHeader>
+              {{ campArray.name }}
+              <CAccordionBody>
+                {{ campArray.description }}
+              </CAccordionBody>
+            </caccordionheader>
+          </CAccordionItem>
         </template>
       </CAccordionItem>
     </CAccordion>
