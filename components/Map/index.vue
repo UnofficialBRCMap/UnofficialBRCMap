@@ -54,46 +54,6 @@ const showPolygons = ref(true)
 const block = ref(undefined)
 const map = ref(undefined)
 
-function formatBlockAddress(bt: any, letter: any, inverted: boolean) {
-  const n = new Date(0, 0)
-  n.setSeconds(+bt * 60 * 60)
-  let s = n.toTimeString().slice(0, 5)
-  if (s.charAt(0) === '0')
-    s = s.slice(1, 5)
-
-  if (!inverted)
-    return `${s} & ${letter}`
-
-  return `${letter} & ${s}`
-}
-
-// formateEdgeBlockAddress returns the blocktime as either 30 minutes less, or 15 minutes less if the letter is E or above
-function formatEdgeBlockAddress(blockTime: any, letter: any) {
-  const n = new Date(0, 0)
-  n.setSeconds(+blockTime * 60 * 60)
-  if (letter < 'E')
-    n.setMinutes(n.getMinutes() - 30)
-  else
-    n.setMinutes(n.getMinutes() - 45)
-
-  let s = n.toTimeString().slice(0, 5)
-  if (s.charAt(0) === '0')
-    s = s.slice(1, 5)
-
-  return `${letter} & ${s}`
-}
-
-// getAllCampLocationOptions is a function that takes in a blockTime and roadLetter and returns all three versions for that block
-function getAllCampLocationOptions(blockTime: any, roadLetter: any) {
-  const returns = [
-    formatBlockAddress(blockTime, roadLetter, false),
-    formatBlockAddress(blockTime, roadLetter, true),
-    formatEdgeBlockAddress(blockTime, roadLetter),
-  ]
-  console.log('blocks to lookup', returns)
-  return returns
-}
-
 const campStore = useCampStore()
 
 const center = [40.787030, -119.202740]
@@ -115,9 +75,7 @@ const onEachFeature = function (feature: any, layer: any) {
         layer.setStyle(defaultStyle)
     })
     layer.on('click', () => {
-      console.log('click', feature.properties.id)
-      selectedCamp.value = campStore.getCampsAtLocation(getAllCampLocationOptions(feature.properties.blockTime, feature.properties.roadLetter), campStore.mapDictionary)
-      console.log('selectedCamp', selectedCamp.value)
+      selectedCamp.value = campStore.getCampsAtLocation(campStore.getAllCampLocationOptions(feature.properties.blockTime, feature.properties.roadLetter), campStore.mapDictionary)
       // remove selectedStyle from the previous block
       if (block.value)
         block.value.setStyle(defaultStyle)

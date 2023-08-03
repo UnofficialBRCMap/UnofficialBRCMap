@@ -51,7 +51,6 @@ export const useCampStore = defineStore('camps', () => {
     const dict: { [local: string]: CampWithLocationDto[] } = {}
 
     for (const location of locations) {
-      console.log('location to search for', location)
       if (location) {
         if (Object.hasOwn(mapDictionary, location)) {
           for (const camp of mapDictionary[location]) {
@@ -63,8 +62,47 @@ export const useCampStore = defineStore('camps', () => {
         }
       }
     }
-    console.log('finished dict', dict)
     return dict
+  }
+
+  // formateEdgeBlockAddress returns the blocktime as either 30 minutes less, or 15 minutes less if the letter is E or above
+  function formatEdgeBlockAddress(blockTime: any, letter: any) {
+    const n = new Date(0, 0)
+    n.setSeconds(+blockTime * 60 * 60)
+    if (letter < 'E')
+      n.setMinutes(n.getMinutes() - 30)
+    else
+      n.setMinutes(n.getMinutes() - 45)
+
+    let s = n.toTimeString().slice(0, 5)
+    if (s.charAt(0) === '0')
+      s = s.slice(1, 5)
+
+    return `${letter} & ${s}`
+  }
+
+  function formatBlockAddress(bt: any, letter: any, inverted: boolean) {
+    const n = new Date(0, 0)
+    n.setSeconds(+bt * 60 * 60)
+    let s = n.toTimeString().slice(0, 5)
+    if (s.charAt(0) === '0')
+      s = s.slice(1, 5)
+
+    if (!inverted)
+      return `${s} & ${letter}`
+
+    return `${letter} & ${s}`
+  }
+
+  // getAllCampLocationOptions is a function that takes in a blockTime and roadLetter and returns all three versions for that block
+  function getAllCampLocationOptions(blockTime: any, roadLetter: any) {
+    const returns = [
+      formatBlockAddress(blockTime, roadLetter, false),
+      formatBlockAddress(blockTime, roadLetter, true),
+      formatEdgeBlockAddress(blockTime, roadLetter),
+    ]
+    console.log('blocks to lookup', returns)
+    return returns
   }
 
   return {
@@ -75,6 +113,7 @@ export const useCampStore = defineStore('camps', () => {
     mapDictionary,
     getCampsAtLocation,
     getMostRecentCampLocation,
+    getAllCampLocationOptions,
   }
 })
 
