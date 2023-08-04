@@ -66,25 +66,19 @@ export const useCampStore = defineStore('camps', () => {
     return dict
   }
 
-  // formateEdgeBlockAddress returns the blocktime as either 30 minutes less, or 15 minutes less if the letter is E or above
-  function formatEdgeBlockAddress(blockTime: any, letter: any, inverted: boolean) {
-    const n = new Date(0, 0)
-    n.setSeconds(+blockTime * 60 * 60)
-    n.setMinutes(n.getMinutes() - 15)
+  function formatBlockDisplayName(bt: any, letter: any) {
+    if (!bt)
+      return 'Welcome Home'
 
-    let s = n.toTimeString().slice(0, 5)
-    if (s.charAt(0) === '0')
-      s = s.slice(1, 5)
-
-    if (inverted)
-      return `${s} & ${letter}`
-
-    return `${letter} & ${s}`
+    if (letter <= 'F')
+      return `${formatBlockAddress(bt, letter)} to ${formatBlockAddress(bt, letter, 30)}`
+    return `${formatBlockAddress(bt, letter)} to ${formatBlockAddress(bt, letter, 15)}`
   }
 
-  function formatBlockAddress(bt: any, letter: any, inverted: boolean) {
+  function formatBlockAddress(bt: any, letter: any, subtract: number = 0, inverted: boolean = false) {
     const n = new Date(0, 0)
     n.setSeconds(+bt * 60 * 60)
+    n.setMinutes(n.getMinutes() - subtract)
     let s = n.toTimeString().slice(0, 5)
     if (s.charAt(0) === '0')
       s = s.slice(1, 5)
@@ -97,17 +91,17 @@ export const useCampStore = defineStore('camps', () => {
 
   // getAllCampLocationOptions is a function that takes in a blockTime and roadLetter and returns all three versions for that block
   function getAllCampLocationOptions(blockTime: any, roadLetter: any) {
-    if (roadLetter < 'F') {
+    if (roadLetter <= 'F') {
       return [
-        formatBlockAddress(blockTime, roadLetter, true),
-        formatBlockAddress(blockTime, roadLetter, false),
-        formatEdgeBlockAddress(blockTime, roadLetter, true),
-        formatEdgeBlockAddress(blockTime, roadLetter, false),
+        formatBlockAddress(blockTime, roadLetter, 0, true),
+        formatBlockAddress(blockTime, roadLetter),
+        formatBlockAddress(blockTime, roadLetter, 15, true),
+        formatBlockAddress(blockTime, roadLetter, 15, false),
       ]
     }
     return [
-      formatBlockAddress(blockTime, roadLetter, false),
-      formatBlockAddress(blockTime, roadLetter, true),
+      formatBlockAddress(blockTime, roadLetter),
+      formatBlockAddress(blockTime, roadLetter, 0, true),
     ]
   }
 
@@ -120,6 +114,7 @@ export const useCampStore = defineStore('camps', () => {
     getCampsAtLocation,
     getMostRecentCampLocation,
     getAllCampLocationOptions,
+    formatBlockDisplayName,
   }
 })
 

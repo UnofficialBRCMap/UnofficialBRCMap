@@ -6,7 +6,6 @@ import { NCollapse, NCollapseItem } from 'naive-ui'
 import type { LocationDictionary } from 'types/camp'
 
 const props = defineProps<{
-  block: string
   camps: LocationDictionary[]
 }>()
 

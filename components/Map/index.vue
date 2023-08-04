@@ -23,8 +23,6 @@ import polygons from './Polygons.json'
 import toilet from './toilet.png'
 import '@coreui/coreui/dist/css/coreui.min.css'
 
-const pointerLocation = ref()
-const selectedCamp = ref()
 const hoverStyle = {
   fillOpacity: 0.9,
   color: '#AA4A44',
@@ -47,7 +45,11 @@ const toiletIcon = new L.Icon({
   iconSize: [14, 14],
 })
 
-const blockId = ref(undefined)
+const selectedCamp = ref()
+const blockId = ref({
+  blockTime: undefined,
+  roadLetter: undefined,
+})
 const showPolygons = ref(true)
 const block = ref(undefined)
 const map = ref(undefined)
@@ -55,7 +57,6 @@ const campStore = useCampStore()
 const center = [40.787030, -119.202740]
 const zoom = 13.5
 const algolia = useAlgoliaRef()
-const searchString = ref('')
 
 const clearBlock = function () {
   blockId.value = undefined
@@ -79,7 +80,10 @@ const onEachFeature = function (feature: any, layer: any) {
         block.value.setStyle(defaultStyle)
       layer.setStyle(selectedStyle)
       block.value = layer
-      blockId.value = feature.properties.id
+      blockId.value = {
+        blockTime: feature.properties.blockTime,
+        roadLetter: feature.properties.roadLetter,
+      }
       const newCenter = [(layer._bounds._northEast.lat + layer._bounds._southWest.lat) / 2, (layer._bounds._northEast.lng + layer._bounds._southWest.lng) / 2]
       map.value.setView(newCenter, 16)
     })
@@ -167,8 +171,8 @@ onMounted(async () => {
           </CNav>
         </CCardHeader>
         <CCardBody>
-          <CCardTitle>{{ blockId }}</CCardTitle>
-          <Accordion :block="blockId" :camps="selectedCamp" />
+          <CCardTitle>{{ campStore.formatBlockDisplayName(blockId.blockTime, blockId.roadLetter) }}</CCardTitle>
+          <Accordion :camps="selectedCamp" />
         </CCardBody>
       </CCard>
     </CCardGroup>
