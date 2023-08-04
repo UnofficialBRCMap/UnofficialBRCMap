@@ -51,14 +51,11 @@ const blockId = ref(undefined)
 const showPolygons = ref(true)
 const block = ref(undefined)
 const map = ref(undefined)
-
 const campStore = useCampStore()
-
 const center = [40.787030, -119.202740]
 const zoom = 13.5
-
-const indexName = 'test_index'
 const algolia = useAlgoliaRef()
+const searchString = ref('')
 
 const clearBlock = function () {
   blockId.value = undefined
@@ -117,16 +114,19 @@ onMounted(async () => {
 </script>
 
 <template>
-  <pre>
+  <!-- <pre>
     {{ result.hits }}
-  </pre>
+  </pre> -->
   <CContainer md>
     <CCardGroup style="height:600px">
       <CCard style="height:600px;max-width: 1000px;">
         <CNavbar expand="lg">
           <div>
             <AisInstantSearch index-name="camps" :search-client="algolia">
-              <AisSearchBox />
+              <AisSearchBox
+                placeholder="search for a camp by name, or a word in the description"
+                show-loading-indicator
+              />
               <!-- <AisHits /> -->
             </AisInstantSearch>
           </div>

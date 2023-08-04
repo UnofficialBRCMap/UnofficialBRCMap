@@ -48,6 +48,7 @@ export const useCampStore = defineStore('camps', () => {
   }
 
   function getCampsAtLocation(locations: string[], mapDictionary: any) {
+    console.log('getCampsAtLocation', locations)
     const dict: { [local: string]: CampWithLocationDto[] } = {}
 
     for (const location of locations) {
@@ -66,17 +67,17 @@ export const useCampStore = defineStore('camps', () => {
   }
 
   // formateEdgeBlockAddress returns the blocktime as either 30 minutes less, or 15 minutes less if the letter is E or above
-  function formatEdgeBlockAddress(blockTime: any, letter: any) {
+  function formatEdgeBlockAddress(blockTime: any, letter: any, inverted: boolean) {
     const n = new Date(0, 0)
     n.setSeconds(+blockTime * 60 * 60)
-    if (letter < 'E')
-      n.setMinutes(n.getMinutes() - 30)
-    else
-      n.setMinutes(n.getMinutes() - 45)
+    n.setMinutes(n.getMinutes() - 15)
 
     let s = n.toTimeString().slice(0, 5)
     if (s.charAt(0) === '0')
       s = s.slice(1, 5)
+
+    if (inverted)
+      return `${s} & ${letter}`
 
     return `${letter} & ${s}`
   }
@@ -88,7 +89,7 @@ export const useCampStore = defineStore('camps', () => {
     if (s.charAt(0) === '0')
       s = s.slice(1, 5)
 
-    if (!inverted)
+    if (inverted)
       return `${s} & ${letter}`
 
     return `${letter} & ${s}`
@@ -96,13 +97,18 @@ export const useCampStore = defineStore('camps', () => {
 
   // getAllCampLocationOptions is a function that takes in a blockTime and roadLetter and returns all three versions for that block
   function getAllCampLocationOptions(blockTime: any, roadLetter: any) {
-    const returns = [
+    if (roadLetter < 'F') {
+      return [
+        formatBlockAddress(blockTime, roadLetter, true),
+        formatBlockAddress(blockTime, roadLetter, false),
+        formatEdgeBlockAddress(blockTime, roadLetter, true),
+        formatEdgeBlockAddress(blockTime, roadLetter, false),
+      ]
+    }
+    return [
       formatBlockAddress(blockTime, roadLetter, false),
       formatBlockAddress(blockTime, roadLetter, true),
-      formatEdgeBlockAddress(blockTime, roadLetter),
     ]
-    console.log('blocks to lookup', returns)
-    return returns
   }
 
   return {
