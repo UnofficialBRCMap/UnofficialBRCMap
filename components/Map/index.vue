@@ -3,7 +3,6 @@ import 'leaflet/dist/leaflet.css'
 import { LGeoJson, LMap } from '@vue-leaflet/vue-leaflet'
 import L from 'leaflet'
 import {
-  CButton,
   CCard,
   CCardBody,
   CCardGroup,
@@ -11,13 +10,12 @@ import {
   CCardTitle,
   CCloseButton,
   CContainer,
-  CForm,
-  CFormInput,
   CNav,
   CNavItem,
   CNavbar,
 } from '@coreui/vue'
 import { ref } from 'vue'
+import { AisInstantSearch, AisSearchBox } from 'vue-instantsearch/vue3/es'
 import { useCampStore } from '../../stores/camps'
 import Accordion from './Accordion/index.vue'
 import geoJson from './BurningMan.json'
@@ -58,6 +56,9 @@ const campStore = useCampStore()
 
 const center = [40.787030, -119.202740]
 const zoom = 13.5
+
+const indexName = 'test_index'
+const algolia = useAlgoliaRef()
 
 const clearBlock = function () {
   blockId.value = undefined
@@ -108,19 +109,27 @@ const mapStyle = ({
 })
 
 const polygonOptions = { onEachFeature }
+
+const { result, search } = useAlgoliaSearch('camps') // pass your index name as param
+onMounted(async () => {
+  await search({ query: 'burning globe' })
+})
 </script>
 
 <template>
+  <pre>
+    {{ result.hits }}
+  </pre>
   <CContainer md>
     <CCardGroup style="height:600px">
       <CCard style="height:600px;max-width: 1000px;">
         <CNavbar expand="lg">
-          <CForm class="d-flex">
-            <CFormInput type="search" class="me-2" placeholder="Search" />
-            <CButton type="submit" color="success" variant="outline">
-              Search
-            </CButton>
-          </CForm>
+          <div>
+            <AisInstantSearch index-name="camps" :search-client="algolia">
+              <AisSearchBox />
+              <!-- <AisHits /> -->
+            </AisInstantSearch>
+          </div>
         </CNavbar>
         <LMap
           :zoom="zoom"

@@ -44,12 +44,15 @@
     "@formkit/pro": "^0.112.6",
     "@formkit/themes": "^0.17.2",
     "@headlessui/vue": "^1.7.14",
+    "@nuxtjs/algolia": "^1.9.0",
     "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
     "@turf/turf": "^6.5.0",
+    "algoliasearch": "^4.19.1",
     "coreui": "^0.4.2-alpha2",
     "flowbite": "^1.7.0",
     "nuxt-headlessui": "^1.1.4",
     "nuxt-icon": "^0.4.1",
+    "vue-instantsearch": "^4.10.8",
     "vue-query": "^1.26.0"
   }
 }
