@@ -134,7 +134,7 @@ onMounted(async () => {
   </pre> -->
   <CContainer md>
     <CCardGroup style="height:600px">
-      <CCard style="height:600px;max-width: 1000px;">
+      <CCard style="height:90vh;max-width: 100vw;">
         <CNavbar expand="lg">
           <div>
             <AisInstantSearch index-name="camps" :search-client="algolia">
