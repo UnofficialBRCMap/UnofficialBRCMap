@@ -24,6 +24,7 @@ import polygons from './Polygons.json'
 import toilet from './toilet.png'
 import '@coreui/coreui/dist/css/coreui.min.css'
 
+const pointerLocation = ref()
 const hoverStyle = {
   fillOpacity: 0.9,
   color: '#AA4A44',
@@ -65,6 +66,7 @@ const toiletIcon = new L.Icon({
 
 const selectedCamp = ref()
 const blockId = ref({
+  id: undefined,
   blockTime: undefined,
   roadLetter: undefined,
 })
@@ -106,7 +108,7 @@ const onEachFeature = function (feature: any, layer: any) {
       const hoverId = feature.properties.id
     })
     layer.on('mouseout', () => {
-      if (feature.properties.id !== blockId.value)
+      if (feature.properties.id !== blockId.value.id)
         layer.setStyle(defaultStyle)
     })
     layer.on('click', () => {
@@ -117,6 +119,7 @@ const onEachFeature = function (feature: any, layer: any) {
       layer.setStyle(selectedStyle)
       block.value = layer
       blockId.value = {
+        id: feature.properties.id,
         blockTime: feature.properties.blockTime,
         roadLetter: feature.properties.roadLetter,
       }
@@ -163,7 +166,7 @@ onMounted(async () => {
   </pre> -->
   <CContainer md>
     <CCardGroup style="height:600px">
-      <CCard style="height:90vh;max-width: 100vw;">
+      <CCard style="height:50vh;max-width: 100vw;">
         <CNavbar expand="lg">
           <div>
             <AisInstantSearch index-name="camps" :search-client="algolia">
@@ -189,7 +192,7 @@ onMounted(async () => {
           <LMarker :lat-lng="centerCamp" />
           <LMarker :lat-lng="greetersGap" />
           <LPolyline v-for="street in centerCampPolyLines" :key="street" :lat-lngs="street" :color="centerCampColor" :weight="1" />
-          <LPolyline v-for="street in clockPolyLines" :key="street" :lat-lngs="street" :color="red" :weight="1" />
+          <LPolyline v-for="street in clockPolyLines" :key="street" :lat-lngs="street" color="black" :weight="1" />
           <LGeoJson
             :visible="showPolygons"
             :geojson="polygons"
@@ -198,12 +201,12 @@ onMounted(async () => {
             :on-each-feature="onEachFeature"
             layer-type="overlay"
           />
-          <LGeoJson
+          <!-- <LGeoJson
             :geojson="geoJson"
             :options-style="mapStyle"
             :options="mapOptions"
             layer-type="base"
-          />
+          /> -->
           <LPolyline v-for="street in streets" :key="street" :lat-lngs="street" :color="streetColor" :weight="1" />
         </LMap>
       </CCard>

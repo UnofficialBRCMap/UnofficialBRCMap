@@ -3,10 +3,8 @@ import '@coreui/coreui/dist/css/coreui.min.css'
 
 import { NCollapse, NCollapseItem } from 'naive-ui'
 
-import type { LocationDictionary } from 'types/camp'
-
 const props = defineProps<{
-  camps: LocationDictionary[]
+  camps: Object
 }>()
 
 console.log('what have we got', props.camps)
