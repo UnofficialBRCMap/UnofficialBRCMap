@@ -16,7 +16,7 @@ const segmented = {
 </script>
 
 <template>
-  <div class="hidden w-full flex justify-center md-block">
+  <div class="hidden w-full flex justify-center md:block">
     <div class="justify-left mt-4 max-w-[1400px] flex flex-col items-start p-6 text-left">
       <h2 class="my-2 text-2xl font-semibold text-[#226e93]">
         IT HAS STARTED! Good news for map lovers:
@@ -32,6 +32,8 @@ const segmented = {
       </p>
     </div>
   </div>
+  <h2>This is an interactive map, click a block to see camps at that location</h2>
+  <p>exact coordinates of camps will be placed on the map soon!</p>
   <div class="justify-left flex">
     <Map />
     <NModal

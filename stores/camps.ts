@@ -72,8 +72,8 @@ export const useCampStore = defineStore('camps', () => {
       return 'Welcome Home'
 
     if (letter <= 'F')
-      return `${formatBlockAddress(bt, letter, 30)} to ${formatBlockAddress(bt, letter)}`
-    return `${formatBlockAddress(bt, letter, 15)} to ${formatBlockAddress(bt, letter)}`
+      return `${formatBlockAddress(bt, letter, 30)} - ${formatBlockAddress(bt, letter)}`
+    return `${formatBlockAddress(bt, letter, 15)} - ${formatBlockAddress(bt, letter)}`
   }
 
   function formatBlockAddress(bt: any, letter: any, subtract = 0, inverted = false) {
