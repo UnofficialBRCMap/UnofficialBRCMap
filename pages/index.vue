@@ -34,7 +34,7 @@ const segmented = {
   </div>
   <div class="px-4">
     <h2>This is an interactive map, click a block to see camps at that location</h2>
-    <p>exact coordinates of camps will be placed on the map soon!</p>
+    <p>Coordinates of camps will be placed on the map soon! Search is coming!</p>
   </div>
   <div class="justify-left flex">
     <Map />
