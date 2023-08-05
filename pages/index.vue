@@ -32,8 +32,10 @@ const segmented = {
       </p>
     </div>
   </div>
-  <h2>This is an interactive map, click a block to see camps at that location</h2>
-  <p>exact coordinates of camps will be placed on the map soon!</p>
+  <div class="px-4">
+    <h2>This is an interactive map, click a block to see camps at that location</h2>
+    <p>exact coordinates of camps will be placed on the map soon!</p>
+  </div>
   <div class="justify-left flex">
     <Map />
     <NModal
