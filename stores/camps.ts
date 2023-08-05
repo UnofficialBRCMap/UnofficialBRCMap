@@ -32,6 +32,7 @@ export const useCampStore = defineStore('camps', () => {
         locationsMap.value[mostRecent.string].push(camp)
       }
     })
+    console.log('locationsMap', locationsMap.value)
     return locationsMap.value
   }
 

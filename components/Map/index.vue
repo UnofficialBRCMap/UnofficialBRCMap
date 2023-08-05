@@ -64,6 +64,17 @@ const clearBlock = function () {
 }
 
 const onEachFeature = function (feature: any, layer: any) {
+  // TODO: Add markers to the map using something like this
+  // TODO: get a map marker icon we like
+
+  // if (mapDictonary contains feature.properties.id) {
+  //   iterate over mapDictionary to pull out locations
+  //   put locations x and y into L.marker
+  //   L.marker([coordinates[1],coordinates[0]], {
+  //     icon: SomeKindOfIcon,
+  //   }).addTo(map.value)
+  // }
+
   (function () {
     layer.on('mouseover', () => {
       layer.setStyle(hoverStyle)
