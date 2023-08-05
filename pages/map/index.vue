@@ -28,13 +28,14 @@ const segmented = {
       <template #header-extra>
         Close
       </template>
-      We are excited to share our work with you. We know you have been waiting patiently
+      We are excited to share our work with you, the UnofficialBRC Map BETA. We know you have been waiting patiently
       <br><br>
-      But please! Keep in mind this is a work in progress. This is NOT the final product. We still have many bugs and areas to build. This include:
+      But please! Keep in mind this is a work in progress. This is NOT the final product. We still have many bugs and areas to build. This includes:
       <br>
       <br>
       <ul class="ml-4 list-disc">
         <li>Search (It's almost ready!)</li>
+        <li>Adding Camps not already on the BRC server</li>
         <li>Center Camp mapping</li>
         <li>Updating Porto Locations</li>
         <li>Placing Key Points of Interests</li>
