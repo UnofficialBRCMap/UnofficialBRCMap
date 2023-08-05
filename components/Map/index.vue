@@ -208,7 +208,7 @@ onMounted(async () => {
           <LPolyline v-for="street in streets" :key="street" :lat-lngs="street" :color="streetColor" :weight="1" />
         </LMap>
       </div>
-      <CCard v-if="blockId" class="w-[90vw] md:w-[30vw]">
+      <CCard v-if="blockId" class="w-[90vw] overflow-y-scroll md:w-[30vw]">
         <CCardHeader>
           <CNav class="justify-content-start">
             <CNavItem>
