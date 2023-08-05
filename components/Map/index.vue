@@ -14,7 +14,6 @@ import {
   CNavbar,
 } from '@coreui/vue'
 import { ref } from 'vue'
-import { AisInstantSearch, AisSearchBox } from 'vue-instantsearch/vue3/es'
 import { useCampStore } from '../../stores/camps'
 import Accordion from './Accordion/index.vue'
 
@@ -55,7 +54,7 @@ const defaultStyle = {
 
 const selectedStyle = {
   fillOpacity: 0.8,
-  fillColor: '#FFBF00',
+  fillColor: '#26547C',
 }
 
 const toiletIcon = new L.Icon({
@@ -172,15 +171,14 @@ onMounted(async () => {
     <div class="h-[60vh] w-full md:flex">
       <div style="width: 100vw;" :class="selectedCamp ? 'h-[50vh]' : 'h-[90vh] md:h-[50vh]'">
         <CNavbar expand="lg" class="inline">
-          <div>
+          <!-- <div>
             <AisInstantSearch index-name="camps" :search-client="algolia">
               <AisSearchBox
                 placeholder="search for a camp by name, or a word in the description"
                 show-loading-indicator
               />
-              <!-- <AisHits /> -->
             </AisInstantSearch>
-          </div>
+          </div> -->
         </CNavbar>
         <LMap
           :zoom="zoom"

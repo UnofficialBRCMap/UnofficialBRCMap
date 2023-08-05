@@ -34,6 +34,7 @@ const segmented = {
       <br>
       <br>
       <ul class="ml-4 list-disc">
+        <li>Search (It's almost ready!)</li>
         <li>Center Camp mapping</li>
         <li>Updating Porto Locations</li>
         <li>Placing Key Points of Interests</li>
