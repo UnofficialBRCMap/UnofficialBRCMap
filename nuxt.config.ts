@@ -1,3 +1,4 @@
+/* eslint-disable n/prefer-global/process */
 import { pwa } from './config/pwa'
 import { appDescription } from './constants/index'
 
@@ -34,7 +35,15 @@ export default defineNuxtConfig({
     'nuxt-headlessui',
     'nuxt-icon',
     '@pinia-plugin-persistedstate/nuxt',
+    '@nuxtjs/algolia',
   ],
+  algolia: {
+    apiKey: process.env.ALGOLIA_SEARCH_API_KEY,
+    applicationId: process.env.ALGOLIA_APPLICATION_ID,
+    instantSearch: {
+      theme: 'algolia',
+    },
+  },
   experimental: {
     // when using generate, payload js assets included in sw precache manifest
     // but missing on offline, disabling extraction it until fixed
