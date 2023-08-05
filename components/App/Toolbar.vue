@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NDrawer } from 'naive-ui'
+import { NDrawer, NDrawerContent } from 'naive-ui'
 import '@coreui/coreui/dist/css/coreui.min.css'
 
 const show = ref(false)
@@ -46,11 +46,11 @@ const show = ref(false)
     </div>
   </nav>
   <NDrawer v-model:show="show" closable class="max-w-[90vw]">
-    <n-drawer-content title="Stoner" closable>
+    <NDrawerContent title="Stoner" closable>
       <div class="my-2 flex justify-between p-2">
         <a href="/" class="flex items-center text-black no-underline">
           <img src="~/assets/img/logo.png" class="mr-3 h-6" alt="Google Maps Pin">
-          <span class="self-center whitespace-nowrap text-xl font-thin dark:text-white">Unofficial BRC Map</span>
+          <span>pan class="self-center whitespace-nowrap text-xl font-thin dark:text-white">Unofficial BRC Map</span>
         </a>
         <span class="mr-4" @click="show = false">x</span>
       </div>
@@ -81,6 +81,6 @@ const show = ref(false)
           <AppDropdown />
         </ul>
       </div>
-    </n-drawer-content>
+    </NDrawerContent>
   </NDrawer>
 </template>

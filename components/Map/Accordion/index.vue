@@ -4,7 +4,7 @@ import '@coreui/coreui/dist/css/coreui.min.css'
 import { NCollapse, NCollapseItem } from 'naive-ui'
 
 const props = defineProps<{
-  camps: Object
+  camps: Object | undefined
 }>()
 
 console.log('what have we got', props.camps)

@@ -5,7 +5,6 @@ import L from 'leaflet'
 import {
   CCard,
   CCardBody,
-  CCardGroup,
   CCardHeader,
   CCardTitle,
   CCloseButton,
@@ -78,12 +77,17 @@ const zoom = 14
 const algolia = useAlgoliaRef()
 
 const clearBlock = function () {
-  blockId.value = undefined
+  blockId.value = {
+    id: undefined,
+    blockTime: undefined,
+    roadLetter: undefined,
+  }
   block.value.setStyle(defaultStyle)
+  selectedCamp.value = null
 }
 
 const onEachFeature = function (feature: any, layer: any) {
-  const { id } = feature.properties.id
+  // const { id } = feature.properties.id
 
   // if (campStore.mapDictionary) {
   //   if (Object.hasOwn(campStore.mapDictionary, id)) {
@@ -164,10 +168,10 @@ onMounted(async () => {
   <!-- <pre>
     {{ result.hits }}
   </pre> -->
-  <CContainer md>
-    <CCardGroup style="height:600px">
-      <CCard style="height:50vh;max-width: 100vw;">
-        <CNavbar expand="lg">
+  <CContainer md class="inline w-[60vw]">
+    <div class="h-[60vh] w-full md:flex">
+      <div style="width: 100vw;" :class="selectedCamp ? 'h-[50vh]' : 'h-[90vh] md:h-[50vh]'">
+        <CNavbar expand="lg" class="inline">
           <div>
             <AisInstantSearch index-name="camps" :search-client="algolia">
               <AisSearchBox
@@ -201,21 +205,15 @@ onMounted(async () => {
             :on-each-feature="onEachFeature"
             layer-type="overlay"
           />
-          <!-- <LGeoJson
-            :geojson="geoJson"
-            :options-style="mapStyle"
-            :options="mapOptions"
-            layer-type="base"
-          /> -->
           <LPolyline v-for="street in streets" :key="street" :lat-lngs="street" :color="streetColor" :weight="1" />
         </LMap>
-      </CCard>
-      <CCard v-if="blockId" style="max-width: 300px;">
+      </div>
+      <CCard v-if="blockId" class="w-[90vw] md:w-[30vw]">
         <CCardHeader>
           <CNav class="justify-content-start">
             <CNavItem>
               <CCloseButton
-                :on-click="clearBlock"
+                @click="clearBlock"
               />
             </CNavItem>
           </CNav>
@@ -225,6 +223,6 @@ onMounted(async () => {
           <Accordion :camps="selectedCamp" />
         </CCardBody>
       </CCard>
-    </CCardGroup>
+    </div>
   </CContainer>
 </template>
