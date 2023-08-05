@@ -1,4 +1,3 @@
-/* eslint-disable n/prefer-global/process */
 import { pwa } from './config/pwa'
 import { appDescription } from './constants/index'
 
@@ -36,7 +35,11 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/algolia',
+    '@nuxtjs/plausible',
   ],
+  plausible: {
+    domain: 'unofficialbrcmap.com',
+  },
   algolia: {
     apiKey: process.env.ALGOLIA_SEARCH_API_KEY,
     applicationId: process.env.ALGOLIA_APPLICATION_ID,
