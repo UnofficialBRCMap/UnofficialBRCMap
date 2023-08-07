@@ -94,15 +94,25 @@ export const useCampStore = defineStore('camps', () => {
   function getAllCampLocationOptions(blockTime: any, roadLetter: any) {
     if (roadLetter <= 'F') {
       return [
+        // e.g. A & 10:00
         formatBlockAddress(blockTime, roadLetter, 0, true),
+        // e.g. 10:00 & A
         formatBlockAddress(blockTime, roadLetter),
+        // e.g. A & 9:45
         formatBlockAddress(blockTime, roadLetter, 15, true),
+        // e.g. 9:45 & A
         formatBlockAddress(blockTime, roadLetter, 15, false),
+        // e.g. A & 9:30
+        formatBlockAddress(blockTime, roadLetter, 30, true),
+        // e.g. 9:30 & A
+        formatBlockAddress(blockTime, roadLetter, 30, false),
       ]
     }
     return [
       formatBlockAddress(blockTime, roadLetter),
       formatBlockAddress(blockTime, roadLetter, 0, true),
+      formatBlockAddress(blockTime, roadLetter, 15),
+      formatBlockAddress(blockTime, roadLetter, 15, true),
     ]
   }
 
