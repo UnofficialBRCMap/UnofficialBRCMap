@@ -93,24 +93,24 @@ const clearBlock = function () {
 }
 
 const onEachFeature = function (feature: any, layer: any) {
-  const { id } = feature.properties.id
+  // const { id } = feature.properties.id
 
-  if (campStore.mapDictionary) {
-    if (Object.hasOwn(campStore.mapDictionary, id)) {
-      const camps = campStore.mapDictionary[id]
-      camps.forEach((camp) => {
-        if (camp.locations) {
-          const currentLocation = campStore.getMostRecentCampLocation(camp.locations)
-          if (currentLocation.gps_latitude && currentLocation.gps_longitude) {
-            L.marker([currentLocation.gps_latitude, currentLocation.gps_longitude], {
-              icon: markerIcon,
-              // YOU CAN'T BE UNDEFINED I HATE YOU AND IT BULDS ANYWAY
-            }).addTo(map.value)
-          }
-        }
-      })
-    }
-  }
+  // if (campStore.mapDictionary) {
+  //   if (Object.hasOwn(campStore.mapDictionary, id)) {
+  //     const camps = campStore.mapDictionary[id]
+  //     camps.forEach((camp) => {
+  //       if (camp.locations) {
+  //         const currentLocation = campStore.getMostRecentCampLocation(camp.locations)
+  //         if (currentLocation.gps_latitude && currentLocation.gps_longitude) {
+  //           L.marker([currentLocation.gps_latitude, currentLocation.gps_longitude], {
+  //             icon: markerIcon,
+  //             // YOU CAN'T BE UNDEFINED I HATE YOU AND IT BULDS ANYWAY
+  //           }).addTo(map.value)
+  //         }
+  //       }
+  //     })
+  //   }
+  // }
 
   (() => {
     layer.on('mouseover', () => {
