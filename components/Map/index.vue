@@ -93,25 +93,6 @@ const clearBlock = function () {
 }
 
 const onEachFeature = function (feature: any, layer: any) {
-  // const { id } = feature.properties.id
-
-  // if (campStore.mapDictionary) {
-  //   if (Object.hasOwn(campStore.mapDictionary, id)) {
-  //     const camps = campStore.mapDictionary[id]
-  //     camps.forEach((camp) => {
-  //       if (camp.locations) {
-  //         const currentLocation = campStore.getMostRecentCampLocation(camp.locations)
-  //         if (currentLocation.gps_latitude && currentLocation.gps_longitude) {
-  //           L.marker([currentLocation.gps_latitude, currentLocation.gps_longitude], {
-  //             icon: markerIcon,
-  //             // YOU CAN'T BE UNDEFINED I HATE YOU AND IT BULDS ANYWAY
-  //           }).addTo(map.value)
-  //         }
-  //       }
-  //     })
-  //   }
-  // }
-
   (() => {
     layer.on('mouseover', () => {
       layer.setStyle(hoverStyle)
@@ -136,6 +117,28 @@ const onEachFeature = function (feature: any, layer: any) {
       const newCenter = [(layer._bounds._northEast.lat + layer._bounds._southWest.lat) / 2, (layer._bounds._northEast.lng + layer._bounds._southWest.lng) / 2]
       map.value.setView(newCenter, 16)
     })
+
+    // const { id } = feature.properties.id
+    // console.log('what\'s the id', id)
+    // console.log('mapDictionary', campStore.mapDictionary)
+
+    // if (campStore.mapDictionary) {
+    //   const camps = campStore.mapDictionary[id]
+
+    //   console.log('camps', camps)
+    //   camps.forEach((camp) => {
+    //     if (camp.locations) {
+    //       const currentLocation = campStore.getMostRecentCampLocation(camp.locations)
+    //       console.log('marker for', camp.name)
+    //       if (currentLocation.gps_latitude && currentLocation.gps_longitude) {
+    //         L.marker([currentLocation.gps_latitude, currentLocation.gps_longitude], {
+    //           icon: markerIcon,
+    //         // YOU CAN'T BE UNDEFINED I HATE YOU AND IT BULDS ANYWAY
+    //         }).addTo(map.value)
+    //       }
+    //     }
+    //   })
+    // }
   })()
 }
 
