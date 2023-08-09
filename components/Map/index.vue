@@ -204,7 +204,7 @@ onMounted(async () => {
             :on-each-feature="onEachFeature"
             layer-type="overlay"
           />
-          <LPolyline v-for="street in streets" :key="street" :lat-lngs="street" :color="streetColor" :weight="1" />
+          <LPolyline v-for="(street, i) in streets" :key="i" :lat-lngs="street" :color="streetColor" :weight="1" />
         </LMap>
       </div>
       <CCard v-if="blockId" class="mt-4 w-[90vw] overflow-y-scroll md:w-[30vw]">

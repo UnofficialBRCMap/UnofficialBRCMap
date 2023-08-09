@@ -7,7 +7,7 @@ const show = ref(false)
 
 <template>
   <nav class="mt-2 w-full bg-white dark:bg-gray-900">
-    <div class="mx-autow-full flex flex items-center justify-between px-4">
+    <div class="mx-autow-full flex items-center justify-between px-4">
       <a href="/" class="flex items-center text-black no-underline">
         <img src="~/assets/img/logo.png" class="mr-3 h-8" alt="Google Maps Pin">
         <span class="self-center whitespace-nowrap text-2xl font-thin dark:text-white">Unofficial BRC Map</span>
