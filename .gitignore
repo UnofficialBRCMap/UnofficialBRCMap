@@ -3,6 +3,6 @@ node_modules
 dist
 .output
 .nuxt
-.env
 .idea/
-.env
+*.env
+.DS_Store
