@@ -71,7 +71,7 @@ export const useCampStore = defineStore('camps', () => {
     if (!bt)
       return 'Welcome Home'
 
-    if (letter <= 'F')
+    if (letter < 'F')
       return `${formatBlockAddress(bt, letter, 30)} - ${formatBlockAddress(bt, letter)}`
     return `${formatBlockAddress(bt, letter, 15)} - ${formatBlockAddress(bt, letter)}`
   }
@@ -92,17 +92,27 @@ export const useCampStore = defineStore('camps', () => {
 
   // getAllCampLocationOptions is a function that takes in a blockTime and roadLetter and returns all three versions for that block
   function getAllCampLocationOptions(blockTime: any, roadLetter: any) {
-    if (roadLetter <= 'F') {
+    if (roadLetter < 'F') {
       return [
+        // e.g. A & 10:00
         formatBlockAddress(blockTime, roadLetter, 0, true),
+        // e.g. 10:00 & A
         formatBlockAddress(blockTime, roadLetter),
+        // e.g. A & 9:45
         formatBlockAddress(blockTime, roadLetter, 15, true),
+        // e.g. 9:45 & A
         formatBlockAddress(blockTime, roadLetter, 15, false),
+        // e.g. A & 9:30
+        formatBlockAddress(blockTime, roadLetter, 30, true),
+        // e.g. 9:30 & A
+        formatBlockAddress(blockTime, roadLetter, 30, false),
       ]
     }
     return [
       formatBlockAddress(blockTime, roadLetter),
       formatBlockAddress(blockTime, roadLetter, 0, true),
+      formatBlockAddress(blockTime, roadLetter, 15),
+      formatBlockAddress(blockTime, roadLetter, 15, true),
     ]
   }
 
