@@ -103,6 +103,29 @@ const onEachFeature = function (feature: any, layer: any) {
         layer.setStyle(defaultStyle)
     })
     layer.on('click', () => {
+      console.log('what\'s the id', feature.properties.id)
+      console.log('mapDictionary', campStore.mapDictionary)
+
+      if (campStore.mapDictionary) {
+        const campId = campStore.formatBlockAddress(feature.properties.blockTime, feature.properties.roadLetter, 0, true)
+        console.log('campId', campId)
+        const camps = campStore.mapDictionary[campId]
+
+        console.log('camps', camps)
+        camps.forEach((camp) => {
+          if (camp.locations) {
+            const currentLocation = campStore.getMostRecentCampLocation(camp.locations)
+            console.log('marker for', camp.name)
+            if (currentLocation.gps_latitude && currentLocation.gps_longitude) {
+              L.marker([currentLocation.gps_latitude, currentLocation.gps_longitude], {
+                icon: markerIcon,
+                // YOU CAN'T BE UNDEFINED I HATE YOU AND IT BULDS ANYWAY
+              }).addTo(map.value)
+            }
+          }
+        })
+      }
+
       selectedCamp.value = campStore.getCampsAtLocation(campStore.getAllCampLocationOptions(feature.properties.blockTime, feature.properties.roadLetter), campStore.mapDictionary)
       // remove selectedStyle from the previous block
       if (block.value)
@@ -118,27 +141,27 @@ const onEachFeature = function (feature: any, layer: any) {
       map.value.setView(newCenter, 16)
     })
 
-    // const { id } = feature.properties.id
-    // console.log('what\'s the id', id)
-    // console.log('mapDictionary', campStore.mapDictionary)
+    const { id } = feature.properties.id
+    console.log('what\'s the id', id)
+    console.log('mapDictionary', campStore.mapDictionary)
 
-    // if (campStore.mapDictionary) {
-    //   const camps = campStore.mapDictionary[id]
+    if (campStore.mapDictionary) {
+      const camps = campStore.mapDictionary[id]
 
-    //   console.log('camps', camps)
-    //   camps.forEach((camp) => {
-    //     if (camp.locations) {
-    //       const currentLocation = campStore.getMostRecentCampLocation(camp.locations)
-    //       console.log('marker for', camp.name)
-    //       if (currentLocation.gps_latitude && currentLocation.gps_longitude) {
-    //         L.marker([currentLocation.gps_latitude, currentLocation.gps_longitude], {
-    //           icon: markerIcon,
-    //         // YOU CAN'T BE UNDEFINED I HATE YOU AND IT BULDS ANYWAY
-    //         }).addTo(map.value)
-    //       }
-    //     }
-    //   })
-    // }
+      console.log('camps', camps)
+      camps.forEach((camp) => {
+        if (camp.locations) {
+          const currentLocation = campStore.getMostRecentCampLocation(camp.locations)
+          console.log('marker for', camp.name)
+          if (currentLocation.gps_latitude && currentLocation.gps_longitude) {
+            L.marker([currentLocation.gps_latitude, currentLocation.gps_longitude], {
+              icon: markerIcon,
+            // YOU CAN'T BE UNDEFINED I HATE YOU AND IT BULDS ANYWAY
+            }).addTo(map.value)
+          }
+        }
+      })
+    }
   })()
 }
 

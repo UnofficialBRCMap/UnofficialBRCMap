@@ -126,6 +126,7 @@ export const useCampStore = defineStore('camps', () => {
     getMostRecentCampLocation,
     getAllCampLocationOptions,
     formatBlockDisplayName,
+    formatBlockAddress,
   }
 })
 
