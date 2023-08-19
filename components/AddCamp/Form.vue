@@ -126,7 +126,7 @@ const addressSelection = computed(() => {
         </h4>
       </div>
 
-      <span>The map will be launching soon! Thank you for your patience while we build the next iteration of The Unofficial BRC Map</span>
+      <span>Thank you for your patience while we build the next iteration of The Unofficial BRC Map</span>
       <br><br>
       <span>Don't see your camp on the list? Don't worry! We will be adding a form to add your own camp's soon!</span>
     </div>

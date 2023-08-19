@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import 'leaflet/dist/leaflet.css'
+import type { LatLngExpression, Map } from 'leaflet'
 import { LGeoJson, LMap, LMarker, LPolyline } from '@vue-leaflet/vue-leaflet'
 import L from 'leaflet'
 import {
@@ -18,6 +19,10 @@ import { useCampStore } from '../../stores/camps'
 import { centerCampPolyLines, clockPolyLines, streets } from './Streets'
 import Accordion from './Accordion/index.vue'
 
+import clockPolyLines from './clockPolyLines'
+import centerCampPolyLines from './centerCampPolyLines'
+import streets from './streets'
+
 // import geoJson from './BurningMan.json'
 import polygons from './Polygons.json'
 import toilet from './toilet.png'
@@ -29,10 +34,10 @@ const hoverStyle = {
   fillOpacity: 0.9,
   color: '#AA4A44',
 }
-const center = [40.786400, -119.203500]
-const centerCamp = [40.78052685763084, -119.21122602690583]
-const greetersGap = [40.773203, -119.220953]
-const polyline = {
+const center: LatLngExpression = [40.786400, -119.203500]
+const centerCamp: LatLngExpression = [40.78052685763084, -119.21122602690583]
+const greetersGap: LatLngExpression = [40.773203, -119.220953]
+const polyline: { latlngs: LatLngExpression[]; color: string } = {
   latlngs: [
     [40.782814, -119.233566],
     [40.807028, -119.217274],
@@ -76,8 +81,8 @@ const blockId = ref({
   roadLetter: undefined,
 })
 const showPolygons = ref(true)
-const block = ref(undefined)
-const map = ref(undefined)
+const block = ref<typeof LPolyline>()
+const map = ref<Map>()
 const campStore = useCampStore()
 const zoom = 14
 // const algolia = useAlgoliaRef()
@@ -88,11 +93,11 @@ const clearBlock = function () {
     blockTime: undefined,
     roadLetter: undefined,
   }
-  block.value.setStyle(defaultStyle)
+  block.value?.setStyle(defaultStyle)
   selectedCamp.value = null
 }
 
-const onEachFeature = function (feature: any, layer: any) {
+const onEachFeature = function (feature: any, layer: typeof LPolyline) {
   (() => {
     layer.on('mouseover', () => {
       layer.setStyle(hoverStyle)
@@ -137,8 +142,8 @@ const onEachFeature = function (feature: any, layer: any) {
         blockTime: feature.properties.blockTime,
         roadLetter: feature.properties.roadLetter,
       }
-      const newCenter = [(layer._bounds._northEast.lat + layer._bounds._southWest.lat) / 2, (layer._bounds._northEast.lng + layer._bounds._southWest.lng) / 2]
-      map.value.setView(newCenter, 16)
+      const newCenter: LatLngExpression = [(layer._bounds._northEast.lat + layer._bounds._southWest.lat) / 2, (layer._bounds._northEast.lng + layer._bounds._southWest.lng) / 2]
+      map.value?.setView(newCenter, 16)
     })
 
     const { id } = feature.properties.id
@@ -222,8 +227,8 @@ onMounted(async () => {
           <LMarker :lat-lng="center" />
           <LMarker :lat-lng="centerCamp" />
           <LMarker :lat-lng="greetersGap" />
-          <LPolyline v-for="street in centerCampPolyLines" :key="street" :lat-lngs="street" :color="centerCampColor" :weight="1" />
-          <LPolyline v-for="street in clockPolyLines" :key="street" :lat-lngs="street" color="black" :weight="1" />
+          <LPolyline v-for="(street, i) in centerCampPolyLines" :key="i" :lat-lngs="street" :color="centerCampColor" :weight="1" />
+          <LPolyline v-for="(street, i) in clockPolyLines" :key="i" :lat-lngs="street" color="black" :weight="1" />
           <LGeoJson
             :visible="showPolygons"
             :geojson="polygons"
@@ -232,7 +237,7 @@ onMounted(async () => {
             :on-each-feature="onEachFeature"
             layer-type="overlay"
           />
-          <LPolyline v-for="street in streets" :key="street" :lat-lngs="street" :color="streetColor" :weight="1" />
+          <LPolyline v-for="(street, i) in streets" :key="i" :lat-lngs="street" :color="streetColor" :weight="1" />
         </LMap>
       </div>
       <CCard v-if="blockId" class="mt-4 w-[90vw] overflow-y-scroll md:w-[30vw]">
