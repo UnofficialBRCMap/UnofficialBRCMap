@@ -1,4 +1,5 @@
-{"features": [
+{
+  "features": [
     {
       "coordinates": [
         [
@@ -12231,4 +12232,6 @@
       },
       "type": "Polygon"
     }
-  ], "type": "FeatureCollection"}
+  ],
+  "type": "FeatureCollection"
+}
