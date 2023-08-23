@@ -28,7 +28,11 @@ export const useCampStore = defineStore('camps', () => {
       return data.value.map((camp) => {
         return {
           label: `${camp.name}`,
-          value: camp.id,
+          value: {
+            id: camp.id,
+            location: getMostRecentCampLocation(camp.locations),
+            description: camp.description,
+          },
         }
       })
     }

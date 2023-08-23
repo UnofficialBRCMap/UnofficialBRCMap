@@ -17,6 +17,7 @@ import { ref } from 'vue'
 import { useCampStore } from '../../stores/camps'
 import { centerCampPolyLines, clockPolyLines, streets } from './Streets'
 import Accordion from './Accordion/index.vue'
+import SearchComponent from './Search/index.vue'
 
 // import geoJson from './BurningMan.json'
 import polygons from './Polygons.json'
@@ -79,6 +80,7 @@ const showPolygons = ref(true)
 const block = ref(undefined)
 const map = ref(undefined)
 const campStore = useCampStore()
+const campList = campStore.campList
 const zoom = 14
 // const algolia = useAlgoliaRef()
 
@@ -200,14 +202,11 @@ onMounted(async () => {
     <div class="h-[60vh] w-full md:flex">
       <div style="width: 100vw;" :class="selectedCamp ? 'h-[50vh]' : 'h-[90vh] md:h-[50vh]'">
         <CNavbar expand="lg" class="inline">
-          <!-- <div>
-            <AisInstantSearch index-name="camps" :search-client="algolia">
-              <AisSearchBox
-                placeholder="search for a camp by name, or a word in the description"
-                show-loading-indicator
-              />
-            </AisInstantSearch>
-          </div> -->
+          <template>
+            <div id="app">
+              <SearchComponent />
+            </div>
+          </template>
         </CNavbar>
         <LMap
           :zoom="zoom"
