@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { NModal } from 'naive-ui'
+import { useCampStore } from '../stores/camps'
 
 const online = useOnline()
 const router = useRouter()
+
+const campStore = useCampStore()
 
 const showModal = ref(true)
 
@@ -35,6 +38,16 @@ const segmented = {
   <div class="px-4">
     <h2>This is an interactive map, click a block to see camps at that location</h2>
     <p>Coordinates of camps will be placed on the map soon! Search is coming!</p>
+  </div>
+  <div v-if="campStore.mapDictionary">
+    <FormKit
+      type="autocomplete"
+      name="country"
+      label="Search for a country"
+      placeholder="Example: United States"
+      :options="campStore.campList"
+      multiple
+    />
   </div>
   <div class="justify-left flex">
     <Map />

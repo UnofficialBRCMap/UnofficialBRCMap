@@ -2,13 +2,17 @@ import '@formkit/themes/genesis'
 import '@formkit/pro/genesis'
 import { generateClasses } from '@formkit/themes'
 import { genesisIcons } from '@formkit/icons'
+import { createProPlugin, inputs } from '@formkit/pro'
+
+const pro = createProPlugin('FORMKIT_KEY_HERE', inputs)
 
 function defaultToEmptyString(node: any) {
   if (node.value === undefined)
     node.input('', false)
 }
+
 export default {
-  plugins: [defaultToEmptyString],
+  plugins: [defaultToEmptyString, pro],
   icons: {
     ...genesisIcons,
   },

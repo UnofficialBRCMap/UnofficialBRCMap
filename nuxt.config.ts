@@ -84,6 +84,7 @@ export default defineNuxtConfig({
     public: {
       apiBase: `${process.env.FRONTEND_URL}/api`,
       stripePk: process.env.STRIPE_PK,
+      FORM_KIT_KEY: process.env.FORM_KIT_KEY,
     },
   },
   vueuse: {

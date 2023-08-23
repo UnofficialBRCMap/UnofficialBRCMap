@@ -23,6 +23,22 @@ export const useCampStore = defineStore('camps', () => {
   },
   )
 
+  const campList = computed(() => {
+    if (data) {
+      return data.value.map((camp) => {
+        return {
+          label: `${camp.name}`,
+          value: {
+            id: camp.id,
+            location: getMostRecentCampLocation(camp.locations),
+            description: camp.description,
+          },
+        }
+      })
+    }
+  },
+  )
+
   function getMapDictionary(campData: CampWithLocationDto[]) {
     campData.forEach((camp: CampWithLocationDto) => {
       if (camp.locations.length > 0) {
@@ -122,6 +138,7 @@ export const useCampStore = defineStore('camps', () => {
     data,
     locationsMap,
     mapDictionary,
+    campList,
     getCampsAtLocation,
     getMostRecentCampLocation,
     getAllCampLocationOptions,
